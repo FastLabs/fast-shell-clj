@@ -1,5 +1,6 @@
 (ns app.core
-  (:require [clojure.spec.alpha :as s]))
+  (:require #?(:clj [clojure.spec.alpha :as s]
+               :cljs [cljs.spec.alpha :as s])))
 
 (s/def ::id string?)
 (s/def ::name string?)

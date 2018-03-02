@@ -1,6 +1,8 @@
 (ns session.core
   (:require [app.core :as app]
-            [clojure.spec.alpha :as s]))
+    #?(:clj
+            [clojure.spec.alpha :as s]
+       :cljs [cljs.spec.alpha :as s])))
 
 (s/def ::active? boolean?)
 (s/def ::id (s/cat :session-id int? :app-id ::app/id))

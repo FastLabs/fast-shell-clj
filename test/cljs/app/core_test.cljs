@@ -1,7 +1,7 @@
 (ns app.core-test
   (:require [app.core :as app]
-            [clojure.test :refer :all]
-            [clojure.spec.alpha :as s]))
+            [cljs.test :refer-macros [deftest testing is]]
+            [cljs.spec.alpha :as s]))
 
 (deftest app-meta-test
   (testing "mandatory application fields"

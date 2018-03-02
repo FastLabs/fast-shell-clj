@@ -1,6 +1,6 @@
 (ns session.core-test
-  (:require [clojure.test :refer :all]
-            [clojure.spec.alpha :as s]
+  (:require [cljs.test :refer-macros [testing deftest is]]
+            [cljs.spec.alpha :as s]
             [app.core :as app]
             [session.core :as ses]))
 

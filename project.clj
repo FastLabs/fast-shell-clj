@@ -19,7 +19,8 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]]
 
-    :plugins      [[lein-figwheel "0.5.14"]]}}
+    :plugins      [[lein-figwheel "0.5.14"]
+                   [lein-doo "0.1.8"]]}}
 
   :cljsbuild
   {:builds
@@ -33,6 +34,13 @@
                     :source-map-timestamp true
                     :preloads             [devtools.preload]
                     :external-config      {:devtools/config {:features-to-install :all}}}}
+
+    {:id           "test"
+     :source-paths ["src/cljs" "test/cljs"]
+     :compiler     {:output-to     "resources/public/js/compiled/test.js"
+                    :output-dir    "resources/public/js/compiled/test/out"
+                    :main          fast-shell.runner
+                    :optimizations :none}}
 
 
     {:id           "min"
