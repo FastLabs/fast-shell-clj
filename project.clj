@@ -18,20 +18,20 @@
   :profiles
   {:dev
    {:dependencies [[binaryage/devtools "0.9.4"]]
-
-    :plugins      [[lein-figwheel "0.5.14"]
+    :plugins      [[lein-figwheel "0.5.15"]
                    [lein-doo "0.1.8"]]}}
 
   :cljsbuild
   {:builds
    [{:id           "dev"
-     :source-paths ["src/cljs"]
-     :figwheel     {:on-jsload "fast-shell-clj.core/mount-root"}
-     :compiler     {:main                 fast-shell-clj.core
+     :source-paths ["src/cljs" "test/cljs"]
+     :figwheel     {:on-jsload "fast-shell.core/mount-root"}
+     :compiler     {:main                 fast-shell.core
                     :output-to            "resources/public/js/compiled/app.js"
                     :output-dir           "resources/public/js/compiled/out"
                     :asset-path           "js/compiled/out"
                     :source-map-timestamp true
+                    :optimizations        :none
                     :preloads             [devtools.preload]
                     :external-config      {:devtools/config {:features-to-install :all}}}}
 
@@ -45,7 +45,7 @@
 
     {:id           "min"
      :source-paths ["src/cljs"]
-     :compiler     {:main            fast-shell-clj.core
+     :compiler     {:main            fast-shell.core
                     :output-to       "resources/public/js/compiled/app.js"
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}

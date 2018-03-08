@@ -1,1 +1,1 @@
-(ns fast-shell-clj.core)
+(ns fast-shell.core)
