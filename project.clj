@@ -13,7 +13,9 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :figwheel {:css-dirs ["resources/public/css"]}
+  :figwheel {:css-dirs ["resources/public/css"]
+             :nrepl-port 7888
+             :repl false}
 
   :profiles
   {:dev
@@ -26,6 +28,7 @@
    [{:id           "dev"
      :source-paths ["src/cljs" "test/cljs"]
      :figwheel     {:on-jsload "fast-shell.core/mount-root"}
+
      :compiler     {:main                 fast-shell.core
                     :output-to            "resources/public/js/compiled/app.js"
                     :output-dir           "resources/public/js/compiled/out"
