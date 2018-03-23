@@ -1,4 +1,4 @@
-(ns fast-shell.runner
+(ns fast-shell.doo-runner
   (:require [doo.runner :refer-macros [doo-tests]]
             [app.core-test]
             [session.core-test]))

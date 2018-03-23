@@ -33,7 +33,7 @@
                       ::ses/all-active]} (ses/start-session s-map app-meta)]
           (is (= 2 (count (ses/scan-sessions all-inst app-meta)))))))
 
-    (testing "disable current active session"
+    '(testing "disable current active session"
       (let [disabled-session (->> app-meta
                                   (ses/new-session 2)
                                   ses/disable-session)]

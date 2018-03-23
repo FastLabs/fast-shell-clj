@@ -5,6 +5,7 @@
 
 (deftest app-meta-test
   (testing "mandatory application fields"
+    (prn "simple test -1")
     (is (s/valid? ::app/meta (app/new-app "ap1" "hello world"))))
   (testing "one more test"
     (is (= 1 1))))
