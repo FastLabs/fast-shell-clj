@@ -1,12 +1,13 @@
 (ns fast-shell.views
   (:require [re-frame.core :as re-frame]
-            [fast-shell.subs :as subs]))
+            [fast-shell.subs :as subs]
+            [openfin.core :as of]))
 
 (def sessions [{}])
 
 
 (defn session-toggle
-  [{:keys [sesion-id app-meta]}]
+  [{:keys [session-id app-meta]}]
   [:a.panel-block session-id])
 
 (defn session-bar
@@ -24,6 +25,13 @@
    [:div.level [:nav.level-left [session-bar sessions]]
                [:div.level-item [app-canvas]]]])
 
+(defn app-fin-test []
+  [:div
+   [:button {:on-click #(of/version)} "OpenFinn Version"]
+   [:button {:on-click #(of/dev-tools)} "Dev tools"]])
+
 (defn main-panel []
   (let [name (re-frame/subscribe [::subs/name])]
-    [:div "Hello from " @name]))
+    [:div [:div "Hello again from " @name]
+     [app-fin-test]]))
+

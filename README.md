@@ -32,3 +32,7 @@ lein doo phantom test
 ```
 
 
+run dev cards:
+```
+lein figwheel dev-cards
+```

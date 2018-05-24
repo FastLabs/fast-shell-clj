@@ -17,17 +17,17 @@
 
   :profiles
   {:dev
-   {:dependencies  [[binaryage/devtools "0.9.9"]
-                    [lein-doo "0.1.8"]
-                    [devcards "0.2.4"]
-                    [figwheel-sidecar "0.5.15"]
-                    [com.cemerick/piggieback "0.2.2"]]
-    :plugins       [[lein-figwheel "0.5.15"]
-                    [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]
-                    [lein-doo "0.1.8"]]
-    :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]}
+              {:dependencies  [[binaryage/devtools "0.9.9"]
+                               [lein-doo "0.1.8"]
+                               [devcards "0.2.4"]
+                               [figwheel-sidecar "0.5.15"]
+                               [com.cemerick/piggieback "0.2.2"]]
+               :plugins       [[lein-figwheel "0.5.15"]
+                               [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]
+                               [lein-doo "0.1.8"]]
+               :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]}
 
-   :test-fig [:dev]
+   :test-fig  [:dev]
    :dev-cards [:dev]}
 
 
@@ -46,15 +46,15 @@
                     :preloads             [devtools.preload]
                     :external-config      {:devtools/config {:features-to-install :all}}}}
 
-    {:id "devcards"
-     :source-paths ["src/cljs"]
-     :figwheel { :devcards true
-                :open-urls ["http://localhost:3449/cards.html"]}
-     :compiler { :main       "dev-world.core"
-                :asset-path "js/compiled/devcards_out"
-                :output-to  "resources/public/js/compiled/dev_world_devcards.js"
-                :output-dir "resources/public/js/compiled/devcards_out"
-                :source-map-timestamp true}}
+    {:id           "dev-cards"
+     :source-paths ["src/cljs" "cards"]
+     :figwheel     {:devcards    true
+                    :open-urls   ["http://localhost:3449/cards.html"]}
+     :compiler     {:main                 "fast-cards.core"
+                    :asset-path           "js/compiled/devcards_out"
+                    :output-to            "resources/public/js/compiled/dev_world_devcards.js"
+                    :output-dir           "resources/public/js/compiled/devcards_out"
+                    :source-map-timestamp true}}
 
     {:id           "test-fig"
      :source-paths ["src/cljs" "test/cljs"]
