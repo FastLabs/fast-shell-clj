@@ -6,8 +6,12 @@
 
 (s/def ::active? boolean?)
 (s/def ::id (s/cat :session-id int? :app-id ::app/id))
-(s/def ::instance (s/keys :req [::id]
-                          :opt [::active?]))
+(s/def ::attributes map?)
+(s/def ::description string?)
+
+
+(s/def ::session (s/keys :req [::id]
+                         :opt [::attributes ::description]))
 
 
 (s/def ::all-inst (s/coll-of ::instance))
