@@ -4,7 +4,8 @@
                  [cljsjs/react "15.3.1-0"]
                  [cljsjs/react-dom "15.3.1-0"]
                  [reagent "0.7.0"]
-                 [re-frame "0.10.2"]]
+                 [re-frame "0.10.2"]
+                 [re-com "2.1.0"]]
 
   :min-lein-version "2.5.3"
 

@@ -4,18 +4,21 @@
             [clojure.spec.alpha :as s]
        :cljs [cljs.spec.alpha :as s])))
 
-(s/def ::active? boolean?)
+
 (s/def ::id (s/cat :session-id int? :app-id ::app/id))
 (s/def ::attributes map?)
 (s/def ::description string?)
 
 
 (s/def ::session (s/keys :req [::id]
-                         :opt [::attributes ::description]))
+                         :opt [::description ::attributes]))
 
+(s/def ::ins-count int?)
+(s/def ::sessions (s/keys :req [::inst-count]
+                          :opt [::active]))
 
 (s/def ::all-inst (s/coll-of ::instance))
-(s/def ::ins-count int?)
+
 (s/def ::inst-map (s/keys
                     :req [::inst-count]
                     :opt [::all-inst]))

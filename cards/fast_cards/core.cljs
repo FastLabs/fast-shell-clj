@@ -6,7 +6,7 @@
 
 (enable-console-print!)
 
-(defcard first-card
+(defcard app-list-card
          (let [click-handler (fn [app] (prn app))
                filter-handler (fn [val] (prn val))
 
@@ -15,7 +15,16 @@
                card [list-el/search-list apps filter-handler click-handler]]
            (reagent/as-element card)))
 
-(defcard second-card
+
+(defcard side-menu
+         (let [items []]
+           (reagent/as-element [:aside.menu
+                                [:ul.menu-list
+                                 [:li [:a {:href "#"} "App1"]]
+                                 [:li [:a {:href "#"} "App2"]]]])))
+
+
+(defcard tab-view-card
          (let [card [:div
                      [:h1 "This is your first devcard!"]]]
            (reagent/as-element card)))
