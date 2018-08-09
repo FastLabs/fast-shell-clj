@@ -1,8 +1,8 @@
 (ns session.core
   (:require [app.core :as app]
-    #?(:clj
-            [clojure.spec.alpha :as s]
-       :cljs [cljs.spec.alpha :as s])))
+            #?(:clj
+                             [clojure.spec.alpha :as s]
+               :cljs [cljs.spec.alpha :as s])))
 
 
 (s/def ::id (s/cat :session-id int? :app-id ::app/id))
@@ -14,21 +14,16 @@
                          :opt [::description ::attributes]))
 
 (s/def ::ins-count int?)
+(s/def ::all-inst (s/coll-of ::session))
+
 (s/def ::sessions (s/keys :req [::inst-count]
-                          :opt [::active]))
-
-(s/def ::all-inst (s/coll-of ::instance))
-
-(s/def ::inst-map (s/keys
-                    :req [::inst-count]
-                    :opt [::all-inst]))
-
+                          :opt [::all-inst]))
 
 
 (defn new-session
-  [inst-nr {:keys [::app/id]}]
-  {::id      [inst-nr id]
-   ::active? true})
+  [inst-id {:keys [::app/id]}]
+  {::id [inst-id id]})
+
 
 
 (defn scan-sessions
@@ -52,6 +47,12 @@
      {::inst-count new-count
       ::all-inst   (conj all-inst new-session)})))
 
+(defn destroy-session
+  [all-sessions session-id]
+  (filter #(not (= (get % ::id) session-id)) all-sessions))
+
+
+;;TODO: remove this as not quite useful
 (defn disable-session
   ([{:keys [::all-inst] :as sessions}]
    (disable-session sessions (first all-inst)))

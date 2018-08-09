@@ -59,7 +59,8 @@
 
     {:id           "test-fig"
      :source-paths ["src/cljs" "test/cljs"]
-     :figwheel     {:on-jsload "fast-shell.repl-runner/run-all"}
+     :figwheel     {:on-jsload "fast-shell.repl-runner/run-all"
+                    :open-urls  ["http://localhost:3449/index-test.html"]}
 
      :compiler     {:main                 fast-shell.repl-runner
                     :output-to            "resources/public/js/compiled/alltests.js"

@@ -5,41 +5,46 @@
             [session.core :as ses]))
 
 (deftest session-actions
-  (let [app-meta (app/new-app "app-1" "hello world")]
-    (testing "create new session"
-      (let [app-session (ses/new-session 1 app-meta)]
-        (is (s/valid? ::ses/instance app-session))))
+ (let [app-meta (app/new-app-meta "app-1" "hello world")]
+   (testing "create new session"
+     (let [app-session (ses/new-session 1 app-meta)]
+       (is (s/valid? ::ses/session app-session))
+       (is (= {::ses/id [1 "app-1"]} app-session))))
 
-    (testing "find app sessions"
-      (let [sessions [(ses/new-session 1 app-meta)
-                      (ses/new-session 2 (app/new-app "app-2" "good buy"))]
-            found (ses/scan-sessions sessions app-meta)]
-        (is (= 1 (count found)))
-        (is (= [1 "app-1"] (::ses/id (first found))))))
+   (testing "find app sessions"
+     (let [sessions [(ses/new-session 1 app-meta)
+                     (ses/new-session 2 (app/new-app-meta "app-2" "good buy"))]
+           found (ses/scan-sessions sessions app-meta)]
+       (is (= 1 (count found)))
+       (is (= [1 "app-1"] (::ses/id (first found))))))
 
-    (testing "start first session"
-      (let [s-map {::ses/inst-count 0
-                   ::ses/all-inst   []
-                   ::ses/all-active []}]
-        (is (s/valid? ::ses/inst-map (ses/start-session s-map app-meta)))))
+   (testing "start first session"
+     (let [sessions-before {::ses/inst-count 0
+                            ::ses/all-inst   []}
+           sessions-after (ses/start-session sessions-before app-meta)]
+       (is (s/valid? ::ses/sessions sessions-before))
+       (is (s/valid? ::ses/sessions sessions-after))
+       (is (= {::ses/inst-count 1
+               ::ses/all-inst [{::ses/id [1 "app-1"]}]}))))
 
-    (testing "start second session when first active"
-      (let [{:keys [::ses/id] :as session} (ses/new-session 1 app-meta)
-            s-map {::ses/inst-count 1
-                   ::ses/all-inst   [session]
-                   ::ses/all-active [::ses/id]}]
-        (is (s/valid? ::ses/inst-map s-map))
-        (let [{:keys [::ses/all-inst
-                      ::ses/all-active]} (ses/start-session s-map app-meta)]
-          (is (= 2 (count (ses/scan-sessions all-inst app-meta)))))))
+   (testing "start second session when first active"
+     (let [{:keys [::ses/id] :as session} (ses/new-session 1 app-meta)
+           s-map {::ses/inst-count 1
+                  ::ses/all-inst   [session]}]
+       (is (s/valid? ::ses/sessions s-map))
+       (let [{:keys [::ses/all-inst]} (ses/start-session s-map app-meta)]
+         (is (= 2 (count (ses/scan-sessions all-inst app-meta)))))))
 
-    '(testing "disable current active session"
-      (let [disabled-session (->> app-meta
-                                  (ses/new-session 2)
-                                  ses/disable-session)]
-        (is (s/valid? ::ses/instance disabled-session)
-            (is (not (::ses/active? disabled-session))))))))
+   (testing "disable current active session"
+    (let [session-1 {::ses/id [1 "app-1"]}
+          session-2 {::ses/id [2 ""]}
 
+          sessions {::ses/inst-count 3
+                    ::ses/all-inst [session-1]}]
+      (is (s/valid? ::ses/sessions sessions))))))
+
+
+;;TODO: this is redundant for session management, view manager should be aware of how the sessions are rendered
 (deftest close-tab-test
   (testing "second tab is active and not more tabs to the left"
     (let [tabs [{::ses/id 1}
