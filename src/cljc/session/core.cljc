@@ -48,8 +48,9 @@
       ::all-inst   (conj all-inst new-session)})))
 
 (defn destroy-session
-  [all-sessions session-id]
-  (filter #(not (= (get % ::id) session-id)) all-sessions))
+  [{:keys [::all-inst] :as all-sessions} session-id]
+  (assoc all-sessions ::all-inst (filter #(not (= (get % ::id) session-id)) all-inst)))
+
 
 
 ;;TODO: remove this as not quite useful

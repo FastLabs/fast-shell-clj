@@ -37,11 +37,13 @@
 
    (testing "disable current active session"
     (let [session-1 {::ses/id [1 "app-1"]}
-          session-2 {::ses/id [2 ""]}
-
+          session-2 {::ses/id [2 "app-1"]}
+          session-3 {::ses/id [3 "app-1"]}
           sessions {::ses/inst-count 3
-                    ::ses/all-inst [session-1]}]
-      (is (s/valid? ::ses/sessions sessions))))))
+                    ::ses/all-inst [session-1 session-2 session-3]}
+          less-1 (ses/destroy-session sessions [1 "app-1"])]
+      (is (s/valid? ::ses/sessions sessions))
+      (is (s/valid? ::ses/sessions less-1))))))
 
 
 ;;TODO: this is redundant for session management, view manager should be aware of how the sessions are rendered
