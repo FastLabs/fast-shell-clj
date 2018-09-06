@@ -58,7 +58,7 @@
                     :source-map-timestamp true}}
 
     {:id           "test-fig"
-     :source-paths ["src/cljs" "test/cljs"]
+     :source-paths ["src/cljs" "src/cljc" "test/cljs"]
      :figwheel     {:on-jsload "fast-shell.repl-runner/run-all"
                     :open-urls  ["http://localhost:3449/index-test.html"]}
 

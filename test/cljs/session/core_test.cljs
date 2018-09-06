@@ -45,48 +45,8 @@
       (is (s/valid? ::ses/sessions sessions))
       (is (s/valid? ::ses/sessions less-1))))))
 
-
-;;TODO: this is redundant for session management, view manager should be aware of how the sessions are rendered
-(deftest close-tab-test
-  (testing "second tab is active and not more tabs to the left"
-    (let [tabs [{::ses/id 1}
-                {::ses/id 2 ::ses/active? true}]]
-      (is (= [{::ses/id 2 ::ses/active? true}]
-             (ses/close-by-id tabs 1)))))
-
-  (testing "close the only tab"
-    (let [tabs [{::ses/id 1 ::ses/active? true}]]
-      (is (empty? (ses/close-by-id tabs 1)))))
-
-  (testing "close fist tab which is active"
-    (let [tabs [{::ses/id 1 ::ses/active? true}
-                {::ses/id 2}]]
-      (is (= [{::ses/id 2 ::ses/active? true}]
-             (ses/close-by-id tabs 1)))))
-
-  (testing "close last tab when active"
-    (let [tabs [{::ses/id 1}
-                {::ses/id 2 ::ses/active? true}]]
-      (is (= [{::ses/id 1 ::ses/active? true}]
-             (ses/close-by-id tabs 2)))))
-
-  (testing "close active tab in the middle"
-    (let [tabs [{::ses/id 1}
-                {::ses/id 2 ::ses/active? true}
-                {::ses/id 3}]]
-      (is (= [{::ses/id 1}
-              {::ses/id 3 ::ses/active? true}]
-             (ses/close-by-id tabs 2)))))
-
-  (testing "more than 2 tabs on right"
-    (let [tabs [{::ses/id 1}
-                {::ses/id 2 ::ses/active? true}
-                {::ses/id 3}
-                {::ses/id 4}]]
-      (is (= [{::ses/id 1}
-              {::ses/id 3 ::ses/active? true}
-              {::ses/id 4}]
-             (ses/close-by-id tabs 2))))))
+(deftest test-session-state
+  (testing "create new session "))
 
 
 
