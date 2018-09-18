@@ -7,65 +7,66 @@
 
 (deftest new-session-management
   (let [app-meta (app/new-app-meta "app-1" "simple app")
-        db (app/add-new-meta db/default-db app-meta)]
+        db (-> db/default-db
+               (app/add-new-meta app-meta)
+               (app/add-new-meta (app/new-app-meta "app-2" "second app")))]
     (testing "create new session"
       (let [db' (ses/new-session db "app-1")
             {:keys [::ses/instances]} db']
-        (prn instances)
         (is (contains? instances "app-1"))
         (let [{:keys [::ses/inst-count ::ses/all-inst]} (get instances "app-1")]
           (is (= inst-count 1))
           (is (= all-inst {[1 "app-1"] {::ses/id [1 "app-1"]}})))))
-    (testing "more than one session for same app")))
 
+    (testing "more than one session for same app"
+      (let [db' (-> db
+                    (ses/new-session "app-1")
+                    (ses/new-session "app-1"))
+            {:keys [::ses/instances]} db']
+        (is (contains? instances "app-1"))
+        (let [{:keys [::ses/inst-count ::ses/all-inst]} (get instances "app-1")]
+          (is (= inst-count 2))
+          (is (= all-inst {[1 "app-1"] {::ses/id [1 "app-1"]}
+                           [2 "app-1"] {::ses/id [2 "app-1"]}})))))
+    (testing "2 sessions of different apps"
+      (let [db' (-> db
+                    (ses/new-session "app-1")
+                    (ses/new-session "app-2"))
+            {:keys [::ses/instances]} db']
+        (is (contains? instances "app-1"))
+        (is (contains? instances "app-2"))
+        (let [app-1 (get instances "app-1")
+              app-2 (get instances "app-2")]
+          (is (= 1 (get app-1 ::ses/inst-count)))
+          (is (= 1 (get app-2 ::ses/inst-count)))
+          (is (= (get app-1 ::ses/all-inst)
+                 {[1 "app-1"] {::ses/id [1 "app-1"]}}))
+          (is (= (get app-2 ::ses/all-inst)
+                 {[1 "app-2"] {::ses/id [1 "app-2"]}})))))
 
+    (testing "destroy session -> the only available session"
+      (let [db' (-> db
+                    (ses/new-session "app-1")
+                    (ses/new-session "app-2"))
+            {:keys [::ses/instances]} (ses/destroy-session db' [1 "app-1"])]
+        (is (empty? (get-in instances ["app-1" ::ses/all-inst])))))
 
-'(deftest session-actions
-  (let [app-meta (app/new-app-meta "app-1" "hello world")]
-    (testing "create new session"
-      (let [app-session (ses/new-session 1 app-meta)]
-        (is (s/valid? ::ses/session app-session))
-        (is (= {::ses/id [1 "app-1"]} app-session))))
+    (testing "destroy session -> a session from multiple"
+      (let [db' (-> db
+                    (ses/new-session "app-1")
+                    (ses/new-session "app-1"))
+            {:keys [::ses/instances]} (ses/destroy-session db' [1 "app-1"])]
+        (is (nil? (get-in instances ["app-1" ::ses/all-inst [1 "app-1"]])))
+        (is (not (nil? (get-in instances ["app-1" ::ses/all-inst [2 "app-1"]]))))))))
 
-    (testing "find app sessions"
-      (let [sessions [(ses/new-session 1 app-meta)
-                      (ses/new-session 2 (app/new-app-meta "app-2" "good buy"))]
-            found (ses/scan-sessions sessions app-meta)]
-        (is (= 1 (count found)))
-        (is (= [1 "app-1"] (::ses/id (first found))))))
-
-    (testing "start first session"
-      (let [sessions-before {::ses/inst-count 0
-                             ::ses/all-inst   []}
-            sessions-after (ses/start-session sessions-before app-meta)]
-        (is (s/valid? ::ses/sessions sessions-before))
-        (is (s/valid? ::ses/sessions sessions-after))
-        (is (= {::ses/inst-count 1
-                ::ses/all-inst [{::ses/id [1 "app-1"]}]}))))
-
-    (testing "start second session when first active"
-      (let [{:keys [::ses/id] :as session} (ses/new-session 1 app-meta)
-            s-map {::ses/inst-count 1
-                   ::ses/all-inst   [session]}]
-        (is (s/valid? ::ses/sessions s-map))
-        (let [{:keys [::ses/all-inst]} (ses/start-session s-map app-meta)]
-          (is (= 2 (count (ses/scan-sessions all-inst app-meta)))))))
-
-    (testing "disable current active session"
-     (let [session-1 {::ses/id [1 "app-1"]}
-           session-2 {::ses/id [2 "app-1"]}
-           session-3 {::ses/id [3 "app-1"]}
-           sessions {::ses/inst-count 3
-                     ::ses/all-inst [session-1 session-2 session-3]}
-           less-1 (ses/destroy-session sessions [1 "app-1"])]
-       (is (s/valid? ::ses/sessions sessions))
-       (is (s/valid? ::ses/sessions less-1))))))
-
-(deftest test-session-state
-  (testing "create new session "
-    (let [db db/default-db]
-      (prn "xx"))))
-
+(deftest session-lookup
+  (let [db (-> db/default-db
+               (app/add-new-meta (app/new-app-meta "app-1" "first app"))
+               (app/add-new-meta (app/new-app-meta "app-2" "second app")))]
+    (testing "find session by application id"
+      (let [db' (ses/new-session db "app-1")]
+        (is (contains? (ses/app-sessions db' "app-1") [1 "app-1"]))
+        (is (not (contains? (ses/app-sessions db' "app-2") [1 "app-2"])))))))
 
 
 

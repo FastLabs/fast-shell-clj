@@ -21,16 +21,7 @@
 
 (s/def ::instances (s/map-of ::app/id ::sessions))
 
-(defn scan-sessions
-  "Finds all sessions for a particular application"
-  [sessions {:keys [::app/id]}]
-  (filter #(= (second (::id %)) id) sessions))
-
-(defn- gen-id
-  [{:keys [::inst-count]}]
-  (inc inst-count))
-
-(defn- empty-session
+(defn- session-container
   []
   {::inst-count 0
    ::all-inst   {}})
@@ -38,7 +29,7 @@
 (defn gen-session
   "Appends a new session to an existing set of sessions for same application"
   [sessions app-meta]
-  (let [new-sessions (if (nil? sessions) (empty-session) sessions)
+  (let [new-sessions (if (nil? sessions) (session-container) sessions)
         {:keys [::inst-count ::all-inst]} new-sessions
         next-count (inc inst-count)
         new-session-id [next-count (get app-meta ::app/id)]
@@ -54,19 +45,16 @@
     (update-in db [::instances app-id] gen-session app-meta)))
 
 
-;TODO - remove this. I changed the way this is done
-(defn start-session
-  "Appends a new created session "
-  ([sessions app-meta]
-   (start-session sessions app-meta (partial gen-id sessions)))
-  ([{:keys [::inst-count ::all-inst]} app-meta s-id-gen]
-   (let [new-count (s-id-gen)
-         new-session (new-session new-count app-meta)
-         {:keys [::id]} new-session]
-     {::inst-count new-count
-      ::all-inst   (conj all-inst new-session)})))
-
 (defn destroy-session
-  [{:keys [::all-inst] :as all-sessions} session-id]
-  (assoc all-sessions ::all-inst (filter #(not (= (get % ::id) session-id)) all-inst)))
+  [db session-id]
+  (let [[_ app-id] session-id
+        app-ses-info (get-in db [::instances app-id])
+        all-inst' (dissoc (get app-ses-info ::all-inst) session-id)
+        app-session' (assoc app-ses-info ::all-inst all-inst')
+        _ (prn app-session')]
+    (assoc-in db [::instances app-id] app-session')))
+
+(defn app-sessions
+  [db app-id]
+  (get-in db [::instances app-id ::all-inst]))
 
