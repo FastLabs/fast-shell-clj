@@ -9,8 +9,8 @@
 (s/def ::attributes map?)
 (s/def ::description string?)
 
-
-(s/def ::session (s/keys :req [::id]
+;;TODO: replace description with title and make it required
+(s/def ::session (s/keys :req [::id ::title]
                          :opt [::description ::attributes]))
 
 (s/def ::ins-count int?)
@@ -50,11 +50,23 @@
   (let [[_ app-id] session-id
         app-ses-info (get-in db [::instances app-id])
         all-inst' (dissoc (get app-ses-info ::all-inst) session-id)
-        app-session' (assoc app-ses-info ::all-inst all-inst')
-        _ (prn app-session')]
+        app-session' (assoc app-ses-info ::all-inst all-inst')]
     (assoc-in db [::instances app-id] app-session')))
 
 (defn app-sessions
   [db app-id]
   (get-in db [::instances app-id ::all-inst]))
+
+(defn- app-session-pair [app-store all-inst]
+  (->> all-inst
+       (map (fn [[[_ app-id] session]] [ (get app-store app-id) session]))
+       first))
+
+(defn sessions-view
+  [{:keys [::instances ::app/store] :as db}]
+  (prn instances)
+  (->> instances
+       (map (fn [[_ ses-detail]]
+              (app-session-pair (get store ::app/store-content) (get ses-detail ::all-inst))))))
+
 

@@ -68,5 +68,32 @@
         (is (contains? (ses/app-sessions db' "app-1") [1 "app-1"]))
         (is (not (contains? (ses/app-sessions db' "app-2") [1 "app-2"])))))))
 
+(deftest session-view-query
+  (let [db (-> db/default-db
+             (app/add-new-meta (app/new-app-meta "app-1" "first"))
+             (app/add-new-meta (app/new-app-meta "app-2" "second")))]
+    (testing "select session information for view: 2 applications 1 instance each"
+      (let [db' (-> db
+                    (ses/new-session "app-1")
+                    (ses/new-session "app-2"))]
+        (let [session-views (ses/sessions-view db')]
+          (is (= 2 (count session-views)))
+          (is (= [{::app/id "app-1" ::app/name "first"} {::ses/id [1 "app-1"]}] (first session-views)))
+          (is (= [{::app/id "app-2" ::app/name "second"} {::ses/id [1 "app-2"]}] (second session-views))))))
+
+    (testing "select session information for view: more than one instance "
+      (let [db' (-> db
+                    (ses/new-session "app-1")
+                    (ses/new-session "app-2")
+                    (ses/new-session "app-1"))
+            session-views (ses/sessions-view db')]
+        (is (= 2  (count session-views)))
+        (let [[app-1-sessions app-2-sessions] session-views]
+          (prn app-1-sessions)
+          (prn "-------------")
+          (prn app-2-sessions))))))
+
+
+
 
 

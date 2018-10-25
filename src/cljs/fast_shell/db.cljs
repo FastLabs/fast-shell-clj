@@ -8,9 +8,8 @@
 (s/def ::shell-db (s/keys :req [::name
                                 ::app/store
                                 ::session/instances]))
-
 (def default-db
   {::name              "Fast Shell Container"
-   ::app/store         {::app/store-content []
+   ::app/store         {::app/store-content {}
                         ::app/store-cfg     {}}
    ::session/instances {}})

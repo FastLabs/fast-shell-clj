@@ -34,14 +34,16 @@
     [:button {:on-click #(of/dev-tools)} "Dev tools"]])
 
 (defn app-modal [show-app]
-  (prn "first app")
   (when @show-app
+    (prn "Displaying app-store")
     [modal-panel :child [app-menu/app-list show-app]]))
 
 (defn main-panel []
   (let [name (re-frame/subscribe [::subs/name])
+        sessions (re-frame/subscribe [::subs/sessions])
         show-app (re/atom false)]
-     [:div [app-menu/app-menu show-app]
+     (prn (str "Initializing application: " @name))
+     [:div [app-menu/app-menu show-app sessions]
       [app-modal show-app]]))
 ;[app-fin-test]]))
 

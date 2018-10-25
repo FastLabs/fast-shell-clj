@@ -10,7 +10,7 @@
                       :opt [::description]))
 
 (s/def ::store-cfg map?)
-(s/def ::store-content (s/coll-of ::meta))
+(s/def ::store-content (s/map-of ::id ::meta))
 
 (s/def ::store (s/keys :req [::store-content ::store-cfg]))
 
@@ -19,12 +19,12 @@
    ::name app-name})
 
 (defn add-new-meta
-  [db app-meta]
-  (prn "register new application meta " (get app-meta ::name))
-  (update-in db [::store ::store-content] (fn [store-content] (conj store-content app-meta))))
+  [db {:keys [::id] :as app-meta}]
+  (prn (str "register new application meta: " id))
+  (assoc-in db [::store ::store-content id] app-meta))
+
 
 (defn find-by-id
   [db app-id]
-  (let [store-content (get-in db [::store ::store-content])
-        pred (fn [meta] (when (= (get meta ::id) app-id) meta))]
-    (some pred store-content)))
+  (let [store-content (get-in db [::store ::store-content])]
+    (get store-content app-id)))

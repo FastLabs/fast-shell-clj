@@ -3,7 +3,7 @@
 (defn- toggle-app-menu [state]
   (swap! state not))
 
-(defn app-menu [show-modal]
+(defn app-menu [show-modal session-details]
   [:aside.minileftbar {:id "minileftbar"}
    [:ul.menu_list
     [:li

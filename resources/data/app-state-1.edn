@@ -1,0 +1,15 @@
+{::app/name           "Simple Web app Container"
+ ::app/store          {::app/store-cfg     {}
+                       ::app/store-content {"app-1" {::app/id "app-1"}
+                                            "app-2" {::app/id "app-2"}}}
+ ::session/inst-count {"app-1" 2}
+
+ ::session/instances  {[1 "app-1"] {::session/id          [1 "app-1"]
+                                    ::session/description "app-instance 1"
+                                    ::session/attributes  {}}
+                       [2 "app-1"] {::session/id          [2 "app-1"]
+                                     ::session/description "app-instance 2"
+                                     ::session/attributes  {}}}
+
+ ::view/main-menu     {::main-menu/active [{::session/id [1 "app-1"]}
+                                           {::session/id [2 "app-1"]}]}}
