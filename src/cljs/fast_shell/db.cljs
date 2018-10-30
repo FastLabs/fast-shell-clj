@@ -12,4 +12,5 @@
   {::name              "Fast Shell Container"
    ::app/store         {::app/store-content {}
                         ::app/store-cfg     {}}
+   ::session/inst-count {}
    ::session/instances {}})

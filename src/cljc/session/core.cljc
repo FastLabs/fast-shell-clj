@@ -7,51 +7,46 @@
 
 (s/def ::id (s/cat :session-id int? :app-id ::app/id))
 (s/def ::attributes map?)
-(s/def ::description string?)
+(s/def ::title string?)
 
-;;TODO: replace description with title and make it required
 (s/def ::session (s/keys :req [::id ::title]
-                         :opt [::description ::attributes]))
+                         :opt [::attributes]))
 
-(s/def ::ins-count int?)
-(s/def ::all-inst (s/map-of ::id ::session))
+(s/def ::ins-count (s/map-of ::app/id int?))
+(s/def ::instances (s/map-of ::id ::session))
 
-(s/def ::sessions (s/keys :req [::inst-count]
-                          :opt [::all-inst]))
+(defn- gen-session-title
+  [session app-meta]
+  (assoc session ::title (::app/name app-meta)))
 
-(s/def ::instances (s/map-of ::app/id ::sessions))
+(defn- gen-session-id
+  [session app-meta session-postfix]
+  (let [ses-id [(::app/id app-meta) session-postfix]]
+    (assoc session ::id ses-id)))
 
-(defn- session-container
-  []
-  {::inst-count 0
-   ::all-inst   {}})
+(defn gen-session-new [app-meta session-postfix]
+  (-> {}
+      (gen-session-id app-meta session-postfix)
+      (gen-session-title app-meta)))
 
-(defn gen-session
-  "Appends a new session to an existing set of sessions for same application"
-  [sessions app-meta]
-  (let [new-sessions (if (nil? sessions) (session-container) sessions)
-        {:keys [::inst-count ::all-inst]} new-sessions
-        next-count (inc inst-count)
-        new-session-id [next-count (get app-meta ::app/id)]
-        new-session {::id new-session-id}]
-    {::inst-count next-count
-     ::all-inst   (assoc all-inst new-session-id new-session)}))
-
-
-(defn new-session
+(defn add-new-session
   "Creates a new session"
   [db app-id]
-  (let [app-meta (app/find-by-id db app-id)]
-    (update-in db [::instances app-id] gen-session app-meta)))
+  (let [app-meta (app/find-by-id db app-id)
+        app-inst-count (get-in db [::inst-count app-id] 0)
+        session-postfix (inc app-inst-count)
+        new-session (gen-session-new app-meta session-postfix)]
+    (-> db
+      (assoc-in [::instances (::id new-session)] new-session)
+      (assoc-in [::inst-count app-id ] session-postfix))))
 
 
 (defn destroy-session
   [db session-id]
-  (let [[_ app-id] session-id
-        app-ses-info (get-in db [::instances app-id])
-        all-inst' (dissoc (get app-ses-info ::all-inst) session-id)
-        app-session' (assoc app-ses-info ::all-inst all-inst')]
-    (assoc-in db [::instances app-id] app-session')))
+  (let [instances (::instances db)]
+    (->> (dissoc instances session-id)
+         (assoc db ::instances))))
+
 
 (defn app-sessions
   [db app-id]
@@ -59,7 +54,7 @@
 
 (defn- app-session-pair [app-store all-inst]
   (->> all-inst
-       (map (fn [[[_ app-id] session]] [ (get app-store app-id) session]))
+       (map (fn [[[_ app-id] session]] [(get app-store app-id) session]))
        first))
 
 (defn sessions-view
