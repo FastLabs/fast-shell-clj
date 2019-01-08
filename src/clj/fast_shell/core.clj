@@ -1,1 +1,0 @@
-(ns fast-shell.core)
