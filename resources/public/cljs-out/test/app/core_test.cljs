@@ -1,9 +1,9 @@
 (ns app.core-test
   (:require [app.core :as app]
-            [fast-shell.db :as shell]
+            [fast-shell.core :as shell]
             [cljs.test :refer-macros [deftest testing is]]
             [cljs.spec.alpha :as s]
-            [fast-shell.db :as db]))
+            [fast-shell.core :as db]))
 
 (deftest app-meta-test
   (let [app-meta (app/new-app-meta "app-1" "simple app")]

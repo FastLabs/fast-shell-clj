@@ -1,7 +1,7 @@
 (ns session.core-test
   (:require [cljs.test :refer-macros [testing deftest is]]
             [cljs.spec.alpha :as s]
-            [fast-shell.db :as db]
+            [fast-shell.core :as db]
             [app.core :as app]
             [session.core :as ses]))
 

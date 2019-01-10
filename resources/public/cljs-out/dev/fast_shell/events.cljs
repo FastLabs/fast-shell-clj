@@ -1,12 +1,14 @@
 (ns fast-shell.events
   (:require [re-frame.core :as re-frame]
-            [fast-shell.db :as db]
+            [fast-shell.core :as shell]
+
             [app.core :as app]))
 
 (re-frame/reg-event-db
-  ::initialize-db
+  ::shell/initialize-db
   (fn [_ _]
-    db/default-db))
+    (prn "------------------------")
+    shell/default-db))
 
 (re-frame/reg-event-db
   ::new-app-meta

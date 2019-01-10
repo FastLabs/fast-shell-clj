@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('element.app_menu');
 goog.require('cljs.core');
 element.app_menu.toggle_app_menu = (function element$app_menu$toggle_app_menu(state){

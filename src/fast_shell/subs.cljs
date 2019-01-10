@@ -1,15 +1,9 @@
 (ns fast-shell.subs
-  (:require [re-frame.core :as re-frame]
-            [fast-shell.db :as app-db]
-            [session.core :as ses]))
+  (:require [re-frame.core :as rf]
+            [fast-shell.core :as shell]))
 
-(re-frame/reg-sub
- ::name
- (fn [db]
-   (::app-db/name db)))
 
-(re-frame/reg-sub
-  ::sessions
-  (fn [{:keys [::ses/instances] :as db}]
-    instances))
-
+(rf/reg-sub
+  ::shell/title
+  (fn [db]
+    (::shell/title db)))

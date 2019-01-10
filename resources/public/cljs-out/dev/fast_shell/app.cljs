@@ -1,21 +1,49 @@
 (ns ^:figwheel-hooks fast-shell.app
   (:require
+    [re-frame.core :as rf]
+    [app.core :as app]
+    [app.events]
+    [app.subs]
+    [app-repo.events]
+    [session.events]
+    [session.subs]
     [goog.dom :as gdom]
-    [fast-shell.events :as events]
+    [fast-shell.core :as shell]
     [fast-shell.views :as views]
+    [fast-shell.subs]
+    [fast-shell.events]
     [fast-shell.config :as config]
-    [reagent.core :as reagent :refer [atom]]))
+    [reagent.core :as reagent]))
 
 (config/is-dev-mode?)
+
+(defn start-app-repo
+  []
+  (let [apps [{::app/id        "app-repo"
+               ::app/name      "Application Repository"
+               ::app/render-fn views/app-repo-render-fn}
+              {::app/id        "user-admin"
+               ::app/name      "User Admin"
+               ::app/render-fn views/user-admin-render-fn}
+              {::app/id        "remote-app"
+               ::app/name      "Simple Remote App"
+               ::app/location  "http://localhost:9500/apps/simpleapp.html"
+               ::app/render-fn views/iframe-render-fn}]]
+    (rf/dispatch-sync [::shell/initialize-db])
+    (rf/dispatch-sync [:load-apps apps])
+    (app/start-app "app-repo" false)))
+
+
 
 (defn get-app-element []
   (gdom/getElement "app"))
 
 (defn mount [el]
-  (reagent/render-component [views/main-panel] el))
+  (reagent/render-component [views/container-view] el))
 
 (defn mount-app-element []
   (when-let [el (get-app-element)]
+    (start-app-repo)
     (mount el)))
 
 ;; conditionally start your application based on the presence of an "app" element

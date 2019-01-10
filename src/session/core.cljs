@@ -27,39 +27,36 @@
       (gen-session-id app-meta session-postfix)
       (gen-session-title app-meta)))
 
+(defn- next-app-session
+  [db {:keys [::app/id]}]
+  (->> (get-in db [::inst-count id] 0)
+       inc))
+
 (defn add-new-session
   "Creates a new session"
-  [db app-id]
-  (let [app-meta (app/find-by-id db app-id)
-        app-inst-count (get-in db [::inst-count app-id] 0)
-        session-postfix (inc app-inst-count)
-        new-session (gen-session-new app-meta session-postfix)]
+  [db app-meta]
+  (let [session-postfix (next-app-session db app-meta)
+        new-session     (gen-session-new app-meta session-postfix)
+        new-session-id  (::id new-session)]
     (-> db
-        (assoc-in [::instances (::id new-session)] new-session)
-        (assoc-in [::inst-count app-id] session-postfix))))
+        (assoc-in [::instances new-session-id] new-session)
+        (assoc-in [::inst-count (::app/id app-meta)] session-postfix)
+        (assoc ::last-created new-session-id))))
 
-
-(defn destroy-session
+(defn activate-session
   [db session-id]
-  (let [instances (::instances db)]
-    (->> (dissoc instances session-id)
-         (assoc db ::instances))))
+  (prn "Activate Session" session-id)
+  (assoc db ::active session-id))
+
+(defn dispose-session
+  ;;TODO: review this as per re-frame tutorial from lisp-cast
+  [{:keys [::instances] :as db} session-id]
+  (prn "Dispose session" session-id)
+  (->> session-id
+       (dissoc instances)
+       (assoc db ::instances)))
 
 
-(defn app-sessions
-  [db app-id]
-  (get-in db [::instances app-id ::all-inst]))
-
-(defn- app-session-pair [app-store all-inst]
-  (->> all-inst
-       (map (fn [[[_ app-id] session]] [(get app-store app-id) session]))
-       first))
-
-(defn sessions-view
-  [{:keys [::instances ::app/store] :as db}]
-  (prn instances)
-  (->> instances
-       (map (fn [[_ ses-detail]]
-              (app-session-pair (get store ::app/store-content) (get ses-detail ::all-inst))))))
-
-
+(defn app-id
+  [session]
+  (first (::id session)))

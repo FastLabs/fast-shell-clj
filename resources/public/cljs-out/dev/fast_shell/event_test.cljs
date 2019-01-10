@@ -2,7 +2,7 @@
   (:require [clojure.test :refer-macros [deftest testing is]]
             [fast-shell.events :as ev]
             [app.core :as app]
-            [fast-shell.db :as db]
+            [fast-shell.core :as db]
             [re-frame.core :as re]))
 
 (deftest app-meta-events

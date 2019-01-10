@@ -1,4 +1,7 @@
-^{:watch-dirs ["test" "src"]
-  :css-dirs ["resources/public/css"]
-  :auto-testing true}
-{:main fast-shell.app}
+^{:watch-dirs       ["test" "src" "dev"]
+  :css-dirs         ["resources/public/css"]
+  :auto-testing     true
+  :extra-main-files {:cards {:main cards.core}}}
+
+{:main     fast-shell.app
+ :devcards true}

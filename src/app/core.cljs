@@ -1,5 +1,6 @@
 (ns app.core
-  (:require [cljs.spec.alpha :as s]))
+  (:require [cljs.spec.alpha :as s]
+            [re-frame.core :as rf]))
 
 (s/def ::id string?)
 (s/def ::name string?)
@@ -27,3 +28,9 @@
   [db app-id]
   (let [store-content (get-in db [::store ::store-content])]
     (get store-content app-id)))
+
+(defn start-app
+  ([app-id activate?]
+   (rf/dispatch [:start-app app-id activate?]))
+  ([app-id]
+   (start-app app-id true)))

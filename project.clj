@@ -1,9 +1,9 @@
 (defproject fast-shell-clj "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [org.clojure/clojurescript "1.10.339"]
+                 [org.clojure/clojurescript "1.10.439"]
                  [reagent "0.8.1"]
                  [re-frame "0.10.6"]
-                 [re-com "2.1.0"]]
+                 [devcards "0.2.6"]]
 
   :min-lein-version "2.7.1"
 

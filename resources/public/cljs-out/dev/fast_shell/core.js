@@ -1,32 +1,21 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('fast_shell.core');
 goog.require('cljs.core');
-goog.require('reagent.core');
-goog.require('re_frame.core');
-goog.require('fast_shell.events');
-goog.require('fast_shell.views');
-goog.require('fast_shell.config');
-fast_shell.core.dev_setup = (function fast_shell$core$dev_setup(){
-if(fast_shell.config.debug_QMARK_){
-cljs.core.enable_console_print_BANG_.call(null);
-
-return cljs.core.println.call(null,"dev mode");
-} else {
-return null;
-}
-});
-fast_shell.core.mount_root = (function fast_shell$core$mount_root(){
-re_frame.core.clear_subscription_cache_BANG_.call(null);
-
-return reagent.core.render.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [fast_shell.views.main_panel], null),document.getElementById("app"));
-});
-fast_shell.core.init = (function fast_shell$core$init(){
-re_frame.core.dispatch_sync.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("fast-shell.events","initialize-db","fast-shell.events/initialize-db",-1547392056)], null));
-
-fast_shell.core.dev_setup.call(null);
-
-return fast_shell.core.mount_root.call(null);
-});
-goog.exportSymbol('fast_shell.core.init', fast_shell.core.init);
+goog.require('cljs.spec.alpha');
+goog.require('session.core');
+goog.require('app.core');
+cljs.spec.alpha.def_impl.call(null,new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499),new cljs.core.Symbol("cljs.core","string?","cljs.core/string?",-2072921719,null),cljs.core.string_QMARK_);
+cljs.spec.alpha.def_impl.call(null,new cljs.core.Keyword("fast-shell.core","app-db","fast-shell.core/app-db",-460247184),cljs.core.list(new cljs.core.Symbol("cljs.spec.alpha","keys","cljs.spec.alpha/keys",1109346032,null),new cljs.core.Keyword(null,"req","req",-326448303),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499),new cljs.core.Keyword("app.core","store","app.core/store",-1660915894),new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492)], null)),cljs.spec.alpha.map_spec_impl.call(null,cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null,"req-un","req-un",1074571008),new cljs.core.Keyword(null,"opt-un","opt-un",883442496),new cljs.core.Keyword(null,"gfn","gfn",791517474),new cljs.core.Keyword(null,"pred-exprs","pred-exprs",1792271395),new cljs.core.Keyword(null,"keys-pred","keys-pred",858984739),new cljs.core.Keyword(null,"opt-keys","opt-keys",1262688261),new cljs.core.Keyword(null,"req-specs","req-specs",553962313),new cljs.core.Keyword(null,"req","req",-326448303),new cljs.core.Keyword(null,"req-keys","req-keys",514319221),new cljs.core.Keyword(null,"opt-specs","opt-specs",-384905450),new cljs.core.Keyword(null,"pred-forms","pred-forms",172611832),new cljs.core.Keyword(null,"opt","opt",-794706369)],[null,null,null,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__14254){
+return cljs.core.map_QMARK_.call(null,G__14254);
+}),(function (G__14254){
+return cljs.core.contains_QMARK_.call(null,G__14254,new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499));
+}),(function (G__14254){
+return cljs.core.contains_QMARK_.call(null,G__14254,new cljs.core.Keyword("app.core","store","app.core/store",-1660915894));
+}),(function (G__14254){
+return cljs.core.contains_QMARK_.call(null,G__14254,new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492));
+})], null),(function (G__14254){
+return ((cljs.core.map_QMARK_.call(null,G__14254)) && (cljs.core.contains_QMARK_.call(null,G__14254,new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499))) && (cljs.core.contains_QMARK_.call(null,G__14254,new cljs.core.Keyword("app.core","store","app.core/store",-1660915894))) && (cljs.core.contains_QMARK_.call(null,G__14254,new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492))));
+}),cljs.core.PersistentVector.EMPTY,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499),new cljs.core.Keyword("app.core","store","app.core/store",-1660915894),new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499),new cljs.core.Keyword("app.core","store","app.core/store",-1660915894),new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499),new cljs.core.Keyword("app.core","store","app.core/store",-1660915894),new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492)], null),cljs.core.PersistentVector.EMPTY,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(new cljs.core.Symbol("cljs.core","fn","cljs.core/fn",-1065745098,null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"%","%",-950237169,null)], null),cljs.core.list(new cljs.core.Symbol("cljs.core","map?","cljs.core/map?",-1390345523,null),new cljs.core.Symbol(null,"%","%",-950237169,null))),cljs.core.list(new cljs.core.Symbol("cljs.core","fn","cljs.core/fn",-1065745098,null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"%","%",-950237169,null)], null),cljs.core.list(new cljs.core.Symbol("cljs.core","contains?","cljs.core/contains?",-976526835,null),new cljs.core.Symbol(null,"%","%",-950237169,null),new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499))),cljs.core.list(new cljs.core.Symbol("cljs.core","fn","cljs.core/fn",-1065745098,null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"%","%",-950237169,null)], null),cljs.core.list(new cljs.core.Symbol("cljs.core","contains?","cljs.core/contains?",-976526835,null),new cljs.core.Symbol(null,"%","%",-950237169,null),new cljs.core.Keyword("app.core","store","app.core/store",-1660915894))),cljs.core.list(new cljs.core.Symbol("cljs.core","fn","cljs.core/fn",-1065745098,null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Symbol(null,"%","%",-950237169,null)], null),cljs.core.list(new cljs.core.Symbol("cljs.core","contains?","cljs.core/contains?",-976526835,null),new cljs.core.Symbol(null,"%","%",-950237169,null),new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492)))], null),null])));
+fast_shell.core.default_db = new cljs.core.PersistentArrayMap(null, 6, [new cljs.core.Keyword("fast-shell.core","title","fast-shell.core/title",-282614499),"Fast Shell Container",new cljs.core.Keyword("app.core","auto-start","app.core/auto-start",929297034),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, ["app-repo",null], null), null),new cljs.core.Keyword("app.core","always-running","app.core/always-running",1423183885),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, ["app-repo",null], null), null),new cljs.core.Keyword("app.core","store","app.core/store",-1660915894),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword("app.core","store-content","app.core/store-content",381559717),cljs.core.PersistentArrayMap.EMPTY,new cljs.core.Keyword("app.core","store-cfg","app.core/store-cfg",2019867860),cljs.core.PersistentArrayMap.EMPTY], null),new cljs.core.Keyword("session.core","inst-count","session.core/inst-count",798952432),cljs.core.PersistentArrayMap.EMPTY,new cljs.core.Keyword("session.core","instances","session.core/instances",-11767492),cljs.core.PersistentArrayMap.EMPTY], null);
 
 //# sourceMappingURL=core.js.map

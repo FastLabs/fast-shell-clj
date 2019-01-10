@@ -1,15 +1,15 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('devtools.formatters.state');
 goog.require('cljs.core');
 devtools.formatters.state._STAR_current_state_STAR_ = null;
 devtools.formatters.state.valid_current_state_QMARK_ = (function devtools$formatters$state$valid_current_state_QMARK_(){
-return !((devtools.formatters.state._STAR_current_state_STAR_ == null));
+return (!((devtools.formatters.state._STAR_current_state_STAR_ == null)));
 });
 devtools.formatters.state.get_default_state = (function devtools$formatters$state$get_default_state(){
 return cljs.core.PersistentArrayMap.EMPTY;
 });
 devtools.formatters.state.get_current_state = (function devtools$formatters$state$get_current_state(){
-if(cljs.core.truth_(devtools.formatters.state.valid_current_state_QMARK_.call(null))){
+if(devtools.formatters.state.valid_current_state_QMARK_.call(null)){
 } else {
 throw (new Error("Assert failed: (valid-current-state?)"));
 }
@@ -17,27 +17,27 @@ throw (new Error("Assert failed: (valid-current-state?)"));
 return devtools.formatters.state._STAR_current_state_STAR_;
 });
 devtools.formatters.state.update_current_state_BANG_ = (function devtools$formatters$state$update_current_state_BANG_(var_args){
-var args__4534__auto__ = [];
-var len__4531__auto___17496 = arguments.length;
-var i__4532__auto___17497 = (0);
+var args__4647__auto__ = [];
+var len__4641__auto___10748 = arguments.length;
+var i__4642__auto___10749 = (0);
 while(true){
-if((i__4532__auto___17497 < len__4531__auto___17496)){
-args__4534__auto__.push((arguments[i__4532__auto___17497]));
+if((i__4642__auto___10749 < len__4641__auto___10748)){
+args__4647__auto__.push((arguments[i__4642__auto___10749]));
 
-var G__17498 = (i__4532__auto___17497 + (1));
-i__4532__auto___17497 = G__17498;
+var G__10750 = (i__4642__auto___10749 + (1));
+i__4642__auto___10749 = G__10750;
 continue;
 } else {
 }
 break;
 }
 
-var argseq__4535__auto__ = ((((1) < args__4534__auto__.length))?(new cljs.core.IndexedSeq(args__4534__auto__.slice((1)),(0),null)):null);
-return devtools.formatters.state.update_current_state_BANG_.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__4535__auto__);
+var argseq__4648__auto__ = ((((1) < args__4647__auto__.length))?(new cljs.core.IndexedSeq(args__4647__auto__.slice((1)),(0),null)):null);
+return devtools.formatters.state.update_current_state_BANG_.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__4648__auto__);
 });
 
 devtools.formatters.state.update_current_state_BANG_.cljs$core$IFn$_invoke$arity$variadic = (function (f,args){
-if(cljs.core.truth_(devtools.formatters.state.valid_current_state_QMARK_.call(null))){
+if(devtools.formatters.state.valid_current_state_QMARK_.call(null)){
 } else {
 throw (new Error("Assert failed: (valid-current-state?)"));
 }
@@ -48,11 +48,11 @@ return devtools.formatters.state._STAR_current_state_STAR_ = cljs.core.apply.cal
 devtools.formatters.state.update_current_state_BANG_.cljs$lang$maxFixedArity = (1);
 
 /** @this {Function} */
-devtools.formatters.state.update_current_state_BANG_.cljs$lang$applyTo = (function (seq17494){
-var G__17495 = cljs.core.first.call(null,seq17494);
-var seq17494__$1 = cljs.core.next.call(null,seq17494);
-var self__4518__auto__ = this;
-return self__4518__auto__.cljs$core$IFn$_invoke$arity$variadic(G__17495,seq17494__$1);
+devtools.formatters.state.update_current_state_BANG_.cljs$lang$applyTo = (function (seq10746){
+var G__10747 = cljs.core.first.call(null,seq10746);
+var seq10746__$1 = cljs.core.next.call(null,seq10746);
+var self__4628__auto__ = this;
+return self__4628__auto__.cljs$core$IFn$_invoke$arity$variadic(G__10747,seq10746__$1);
 });
 
 devtools.formatters.state.push_object_to_current_history_BANG_ = (function devtools$formatters$state$push_object_to_current_history_BANG_(object){
@@ -64,8 +64,8 @@ return new cljs.core.Keyword(null,"history","history",-247395220).cljs$core$IFn$
 devtools.formatters.state.is_circular_QMARK_ = (function devtools$formatters$state$is_circular_QMARK_(object){
 var history = devtools.formatters.state.get_current_history.call(null);
 return cljs.core.some.call(null,((function (history){
-return (function (p1__17499_SHARP_){
-return (p1__17499_SHARP_ === object);
+return (function (p1__10751_SHARP_){
+return (p1__10751_SHARP_ === object);
 });})(history))
 ,history);
 });
@@ -73,7 +73,7 @@ devtools.formatters.state.prevent_recursion_QMARK_ = (function devtools$formatte
 return cljs.core.boolean$.call(null,new cljs.core.Keyword(null,"prevent-recursion","prevent-recursion",-1498371606).cljs$core$IFn$_invoke$arity$1(devtools.formatters.state.get_current_state.call(null)));
 });
 devtools.formatters.state.set_prevent_recursion = (function devtools$formatters$state$set_prevent_recursion(state,val){
-if(!((val == null))){
+if((!((val == null)))){
 return cljs.core.assoc.call(null,state,new cljs.core.Keyword(null,"prevent-recursion","prevent-recursion",-1498371606),val);
 } else {
 return cljs.core.dissoc.call(null,state,new cljs.core.Keyword(null,"prevent-recursion","prevent-recursion",-1498371606));
@@ -83,7 +83,7 @@ devtools.formatters.state.get_managed_print_level = (function devtools$formatter
 return new cljs.core.Keyword(null,"managed-print-level","managed-print-level",-844058473).cljs$core$IFn$_invoke$arity$1(devtools.formatters.state.get_current_state.call(null));
 });
 devtools.formatters.state.set_managed_print_level = (function devtools$formatters$state$set_managed_print_level(state,val){
-if(!((val == null))){
+if((!((val == null)))){
 return cljs.core.assoc.call(null,state,new cljs.core.Keyword(null,"managed-print-level","managed-print-level",-844058473),val);
 } else {
 return cljs.core.dissoc.call(null,state,new cljs.core.Keyword(null,"managed-print-level","managed-print-level",-844058473));
@@ -93,7 +93,7 @@ devtools.formatters.state.get_depth_budget = (function devtools$formatters$state
 return new cljs.core.Keyword(null,"depth-budget","depth-budget",-335905888).cljs$core$IFn$_invoke$arity$1(devtools.formatters.state.get_current_state.call(null));
 });
 devtools.formatters.state.set_depth_budget = (function devtools$formatters$state$set_depth_budget(state,val){
-if(!((val == null))){
+if((!((val == null)))){
 return cljs.core.assoc.call(null,state,new cljs.core.Keyword(null,"depth-budget","depth-budget",-335905888),val);
 } else {
 return cljs.core.dissoc.call(null,state,new cljs.core.Keyword(null,"depth-budget","depth-budget",-335905888));

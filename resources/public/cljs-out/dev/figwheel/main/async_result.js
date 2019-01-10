@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('figwheel.main.async_result');
 goog.require('cljs.core');
 goog.require('figwheel.repl');
@@ -12,11 +12,11 @@ return figwheel.repl.respond_to_connection.call(null,msg);
 figwheel.main.async_result.throw_ex = (function figwheel$main$async_result$throw_ex(ex){
 if(cljs.core.truth_(ex)){
 var msg = new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"figwheel-event","figwheel-event",519570592),"async-result",new cljs.core.Keyword(null,"value","value",305978217),new cljs.core.PersistentArrayMap(null, 7, [new cljs.core.Keyword(null,"type","type",1174270348),new cljs.core.Keyword("figwheel.main.async-result","exception","figwheel.main.async-result/exception",-1473427908),new cljs.core.Keyword(null,"status","status",-1997798413),new cljs.core.Keyword(null,"exception","exception",-335277064),new cljs.core.Keyword(null,"value","value",305978217),(function (){try{return cljs.core.pr_str.call(null,ex);
-}catch (e10643){if((e10643 instanceof Error)){
-var e = e10643;
+}catch (e9245){if((e9245 instanceof Error)){
+var e = e9245;
 return "Error";
 } else {
-throw e10643;
+throw e9245;
 
 }
 }})(),new cljs.core.Keyword(null,"message","message",-406056002),ex.message,new cljs.core.Keyword(null,"ex-data","ex-data",-309040259),cljs.core.ex_data.call(null,ex),new cljs.core.Keyword(null,"ua-product","ua-product",938384227),figwheel.repl.get_ua_product.call(null),new cljs.core.Keyword(null,"stacktrace","stacktrace",-95588394),ex.stack], null)], null);

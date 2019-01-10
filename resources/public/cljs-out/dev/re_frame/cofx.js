@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('re_frame.cofx');
 goog.require('cljs.core');
 goog.require('re_frame.db');
@@ -77,8 +77,8 @@ return re_frame.registrar.register_handler.call(null,re_frame.cofx.kind,id,handl
  * to the event handler at call time.
  */
 re_frame.cofx.inject_cofx = (function re_frame$cofx$inject_cofx(var_args){
-var G__9592 = arguments.length;
-switch (G__9592) {
+var G__14166 = arguments.length;
+switch (G__14166) {
 case 1:
 return re_frame.cofx.inject_cofx.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 

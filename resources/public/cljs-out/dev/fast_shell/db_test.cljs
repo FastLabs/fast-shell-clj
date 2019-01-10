@@ -1,6 +1,6 @@
 (ns fast-shell.db-test
   (:require [app.core :as app]
-            [fast-shell.db :as shell]
+            [fast-shell.core :as shell]
             [cljs.test :refer-macros [deftest testing is]]
             [cljs.spec.alpha :as s]))
 

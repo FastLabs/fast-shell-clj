@@ -1,48 +1,37 @@
 (ns fast-shell.views
-  (:require [re-frame.core :as re-frame]
-            [re-com.core :refer [v-box modal-panel]]
-            [fast-shell.subs :as subs]
-            [reagent.core :as re]
-          ;  [openfin.core :as of]
-            [element.app-menu :as app-menu]))
+  (:require [re-frame.core :as rf]
+            [app.core :as app]
+            [fast-shell.core :as shell]
+            [session.core :as session]
+            [session.views :as s-view]
+            [app.views :as a-view]
+            [app-repo.views :as repo-view]))
 
-(def sessions [{}])
+(defn app-repo-render-fn
+  [_ _]
+  (let [apps @(rf/subscribe [:app-list])]
+    [:div [:div
+           [:span "Application Repository"]
+           [:div [repo-view/app-list apps]]]]))
 
+(defn user-admin-render-fn
+  [_ _]
+  [:div "User Administration app"])
 
-(defn session-toggle
-  [{:keys [session-id app-meta]}]
-  [:a.panel-block session-id])
+(defn iframe-render-fn
+  [session {:keys [::app/location ::app/id] :as app-meta}]
+  [:div {:style {:height "100%"
+                 :weight "100%"}}
+   [:iframe {:id  (str "ifr-" id)
+             :src location}]])
 
-(defn session-bar
-  [app-sessions]
-  [:div.panel
-   [:p.panel-heading "Sessions"
-    (for [{:keys [session-id] :as ses} app-sessions]
-      ^{:key session-id} [session-toggle ses])]])
-
-(defn app-canvas []
-  [:div "App canvas"])
-
-(defn app-shell []
-  [:div.container.is-fluid
-   [:div.level [:nav.level-left [session-bar sessions]]
-    [:div.level-item [app-canvas]]]])
-
-'(defn app-fin-test []
-   [:div
-    [:button {:on-click #(of/version)} "OpenFinn Version"]
-    [:button {:on-click #(of/dev-tools)} "Dev tools"]])
-
-(defn app-modal [show-app]
-  (when @show-app
-    (prn "Displaying app-store")
-    [modal-panel :child [app-menu/app-list show-app]]))
-
-(defn main-panel []
-  (let [name (re-frame/subscribe [::subs/name])
-        sessions (re-frame/subscribe [::subs/sessions])
-        show-app (re/atom false)]
-     [:div [app-menu/app-menu show-app sessions]
-      [app-modal show-app]]))
-;[app-fin-test]]))
+(defn container-view []
+  (let [app-sessions @(rf/subscribe [::session/app-sessions])
+        app-title    @(rf/subscribe [::shell/title])]
+    (prn "Render Application Sessions for " app-title)
+    [:div
+     [:h2 app-title]
+     [:div [:div [:h3 "Application Instances"]
+            [s-view/session-selector app-sessions]
+            [a-view/app-viewport app-sessions]]]]))
 

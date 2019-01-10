@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('cljs_test_display.notify');
 goog.require('cljs.core');
 goog.require('cljs_test_display.favicon');
@@ -27,15 +27,15 @@ return cljs_test_display.notify.with_permission.call(null,"granted",(function ()
 return (new Notification("All CLJS Tests Passed",({"icon": cljs_test_display.notify.green_url, "silent": true})));
 }));
 });
-cljs_test_display.notify.failure = (function cljs_test_display$notify$failure(p__10295){
-var map__10296 = p__10295;
-var map__10296__$1 = ((((!((map__10296 == null)))?(((((map__10296.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__10296.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__10296):map__10296);
-var error = cljs.core.get.call(null,map__10296__$1,new cljs.core.Keyword(null,"error","error",-978969032));
-var fail = cljs.core.get.call(null,map__10296__$1,new cljs.core.Keyword(null,"fail","fail",1706214930));
-return cljs_test_display.notify.with_permission.call(null,"granted",((function (map__10296,map__10296__$1,error,fail){
+cljs_test_display.notify.failure = (function cljs_test_display$notify$failure(p__9331){
+var map__9332 = p__9331;
+var map__9332__$1 = (((((!((map__9332 == null))))?(((((map__9332.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__9332.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.call(null,cljs.core.hash_map,map__9332):map__9332);
+var error = cljs.core.get.call(null,map__9332__$1,new cljs.core.Keyword(null,"error","error",-978969032));
+var fail = cljs.core.get.call(null,map__9332__$1,new cljs.core.Keyword(null,"fail","fail",1706214930));
+return cljs_test_display.notify.with_permission.call(null,"granted",((function (map__9332,map__9332__$1,error,fail){
 return (function (){
 return (new Notification("CLJS Tests Failed",({"icon": cljs_test_display.notify.red_url, "silent": true, "body": [cljs.core.str.cljs$core$IFn$_invoke$arity$1((cljs.core.truth_(fail)?[cljs.core.str.cljs$core$IFn$_invoke$arity$1(fail)," failures "].join(''):null)),cljs.core.str.cljs$core$IFn$_invoke$arity$1((cljs.core.truth_(error)?[cljs.core.str.cljs$core$IFn$_invoke$arity$1(error)," errors"].join(''):null))].join('')})));
-});})(map__10296,map__10296__$1,error,fail))
+});})(map__9332,map__9332__$1,error,fail))
 );
 });
 

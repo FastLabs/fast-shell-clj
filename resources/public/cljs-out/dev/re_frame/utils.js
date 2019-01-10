@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.339 {}
+// Compiled by ClojureScript 1.10.439 {}
 goog.provide('re_frame.utils');
 goog.require('cljs.core');
 goog.require('re_frame.loggers');
@@ -8,14 +8,14 @@ goog.require('re_frame.loggers');
  *   will not be present in the new structure.
  *   The key thing is that 'm' remains identical? to istelf if the path was never present
  */
-re_frame.utils.dissoc_in = (function re_frame$utils$dissoc_in(m,p__9266){
-var vec__9267 = p__9266;
-var seq__9268 = cljs.core.seq.call(null,vec__9267);
-var first__9269 = cljs.core.first.call(null,seq__9268);
-var seq__9268__$1 = cljs.core.next.call(null,seq__9268);
-var k = first__9269;
-var ks = seq__9268__$1;
-var keys = vec__9267;
+re_frame.utils.dissoc_in = (function re_frame$utils$dissoc_in(m,p__13832){
+var vec__13833 = p__13832;
+var seq__13834 = cljs.core.seq.call(null,vec__13833);
+var first__13835 = cljs.core.first.call(null,seq__13834);
+var seq__13834__$1 = cljs.core.next.call(null,seq__13834);
+var k = first__13835;
+var ks = seq__13834__$1;
+var keys = vec__13833;
 if(ks){
 var temp__5718__auto__ = cljs.core.get.call(null,m,k);
 if(cljs.core.truth_(temp__5718__auto__)){
