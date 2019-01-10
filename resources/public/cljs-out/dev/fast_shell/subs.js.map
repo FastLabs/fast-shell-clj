@@ -1,1 +1,0 @@
-{"version":3,"file":"\/Users\/oleg\/dev\/hub\/fast-shell-clj\/resources\/public\/cljs-out\/dev\/fast_shell\/subs.js","sources":["subs.cljs"],"lineCount":10,"mappings":";AAAA;;;;AAKA,gCAAA,hCAACA,oHAEC,WAAK;AAAL,AACE,OAAA,kHAAeC","names":["re-frame.core\/reg-sub","db"]}
