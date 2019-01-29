@@ -1,6 +1,8 @@
 # fast-shell-clj
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+flabs-shell is an attemnt of implementing a web application shell that will allow to run manageable web applications in a web app container. The applications will be able to comunicate with each other and will accept lifecycle messages from the container.
+
+Started from the idea of having an enterprise app-store.
 
 ## Development Mode
 
@@ -8,51 +10,30 @@ A [re-frame](https://github.com/Day8/re-frame) application designed to ... well,
 
 ```
 lein clean
-lein figwheel dev
+lein  fig:build
 ```
 
-Figwheel will automatically push cljs changes to the browser.
+* Will open: [http://localhost:9500/](http://localhost:9500/).
 
-Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
+* To access the dev-cards go to:
+[http://localhost:9500/cards.html](http://localhost:9500/cards.html)
+
 
 ## Testing the application
-
-Few options available
-* Running tests in a separate figwheel instance. Will run only unit tests in the 
 ```
-lein figwheel test-fig
-``` 
-will open:[http://localhost:3449/index-test.html](http://localhost:3449/index-test.html)
-
-* Running devcards
+lein fig:test
 ```
-lein figwheel dev-cards
-```
-
-will open [http://localhost:3449/cards.html](http://localhost:3449/cards.html)
+will open:[http://localhost:5000/index-test.html](http://localhost:5000/index-test.html)
 
 
 ## Production Build
 
-
-To compile clojurescript to javascript:
-
 ```
 lein clean
-lein cljsbuild once min
-```
-
-Test clojurescript in phantom using doo 
-
-```
-lein doo phantom test
+lein fig:min
 ```
 
 
-run dev cards:
-```
-lein figwheel dev-cards
-```
 
 ## TODO to improve
 
