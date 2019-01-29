@@ -8,7 +8,7 @@
 (s/def ::app-db (s/keys :req [::title
                               ::app/store
                               ::session/instances]))
-(def default-db
+(defonce default-db
   {::title              "Fast Shell Container"
    ::app/auto-start     #{"app-repo"}
    ::app/always-running #{"app-repo"}

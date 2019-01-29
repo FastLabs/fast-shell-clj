@@ -52,7 +52,7 @@
 
 ;; specify reload hook with ^;after-load metadata
 (defn ^:after-load on-reload []
-  (prn "Reload 2")
+  (prn "Reload")
   (mount-app-element))
 ;; optionally touch your app-state to force rerendering depending on
 ;; your application

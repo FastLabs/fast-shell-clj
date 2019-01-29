@@ -23,7 +23,7 @@
     (assoc session ::id ses-id)))
 
 (defn gen-session-new [app-meta session-postfix]
-  (-> {}
+  (-> {::status :pending}
       (gen-session-id app-meta session-postfix)
       (gen-session-title app-meta)))
 
@@ -36,8 +36,8 @@
   "Creates a new session"
   [db app-meta]
   (let [session-postfix (next-app-session db app-meta)
-        new-session     (gen-session-new app-meta session-postfix)
-        new-session-id  (::id new-session)]
+        new-session (gen-session-new app-meta session-postfix)
+        new-session-id (::id new-session)]
     (-> db
         (assoc-in [::instances new-session-id] new-session)
         (assoc-in [::inst-count (::app/id app-meta)] session-postfix)

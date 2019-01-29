@@ -19,15 +19,16 @@
   [:div "User Administration app"])
 
 (defn iframe-render-fn
-  [session {:keys [::app/location ::app/id] :as app-meta}]
-  [:div {:style {:height "100%"
-                 :weight "100%"}}
-   [:iframe {:id  (str "ifr-" id)
-             :src location}]])
+  [{:keys [::session/id]} {:keys [::app/location]}]
+  (let [[app-id inst-id] id]
+    [:div {:style {:height "100%"
+                   :weight "100%"}}
+     [:iframe {:id  (str "ifr-" app-id "$" inst-id)
+               :src location}]]))
 
 (defn container-view []
   (let [app-sessions @(rf/subscribe [::session/app-sessions])
-        app-title    @(rf/subscribe [::shell/title])]
+        app-title @(rf/subscribe [::shell/title])]
     (prn "Render Application Sessions for " app-title)
     [:div
      [:h2 app-title]

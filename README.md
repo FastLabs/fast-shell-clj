@@ -23,7 +23,7 @@ lein  fig:build
 ```
 lein fig:test
 ```
-will open:[http://localhost:5000/index-test.html](http://localhost:5000/index-test.html)
+will open:[http://localhost:9500/index-test.html](http://localhost:5000/index-test.html)
 
 
 ## Production Build
