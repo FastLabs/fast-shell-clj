@@ -10,23 +10,11 @@
     <H4>Simple remote application</H4>
 </div>
 </body>
+<script src="embeded-app.js"></script>
 <script>
-    function handleAppEvent (event) {
+    container.addContainerMessageListener(function handleAppEvent(event) {
         console.log('Received event', JSON.parse(event.data));
-    }
+    });
 
-    window.addEventListener("message",handleAppEvent, true);
-
-    var re = /ifr-(.*?)\$/;
-    if (frameElement.id === undefined) {
-        console.log("Frame element id is not preset");
-    }
-    var instanceId = frameElement.id.split(re);
-    if (instanceId.length !== 3) {
-        console.log("Most probably iframe identifier is not correct");
-        console.log("Will not be able to communicate with the container");
-    } else {
-        window.parent.postMessage(JSON.stringify({appId: instanceId[1], instId: instanceId[2], status: "loaded"}), "*");
-    }
 </script>
 </html>
