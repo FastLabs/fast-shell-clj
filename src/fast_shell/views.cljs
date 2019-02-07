@@ -3,14 +3,14 @@
             [app.core :as app]
             [fast-shell.core :as shell]
             [session.core :as session]
-            [session.views :as s-view]
+            [session.views :refer [session-bar]]
             [app.views :as a-view]
             [app-repo.views :as repo-view]))
 
 (defn app-repo-render-fn
   [_ _]
   (let [apps @(rf/subscribe [:app-list])]
-    [:div [:div
+    [:div [:divsession.views
            [:span "Application Repository"]
            [:div [repo-view/app-list apps]]]]))
 
@@ -27,12 +27,10 @@
                :src location}]]))
 
 (defn container-view []
-  (let [app-sessions @(rf/subscribe [::session/app-sessions])
-        app-title @(rf/subscribe [::shell/title])]
-    (prn "Render Application Sessions for " app-title)
-    [:div
-     [:h2 app-title]
-     [:div [:div [:h3 "Application Instances"]
-            [s-view/session-selector app-sessions]
-            [a-view/app-viewport app-sessions]]]]))
+  (let [app-sessions @(rf/subscribe [::session/app-sessions])]
+    (fn []
+      (prn "Render Application Sessions for " app-sessions)
+      [:div
+       [:aside#minileftbar {:class "minileftbar"} [session-bar app-sessions]]
+       [:section.content [a-view/app-viewport app-sessions]]])))
 
