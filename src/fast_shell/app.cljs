@@ -12,6 +12,7 @@
     [fast-shell.views :as views]
     [fast-shell.subs]
     [fast-shell.events]
+    [nav.core]
     [fast-shell.config :as config]
     [reagent.core :as reagent]))
 

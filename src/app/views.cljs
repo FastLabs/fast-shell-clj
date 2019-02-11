@@ -20,14 +20,13 @@
 (defn app-container
   [session app-meta visible?]
   (let [display (if visible? :block :none)]
-    [:div {:style {:display display}}
+    [:div.app-view-panel {:style {:display display}}
      [container-header session app-meta]
-     [:div [(::app/render-fn app-meta) session app-meta]]]))
+     [:div.app-view-panel [(::app/render-fn app-meta) session app-meta]]]))
 
 (defn app-viewport
   [sessions]
-  [:div {:style {:width "100%" :height "100%" :border "1px solid"}} ;;TODO: if sessions is empty show empty viewport or default view
-   [:div                                                    ;;TODO: do i need this div?
+  [:div.app-view-panel
     (for [[session app-meta selected?] sessions]
       (let [session-id (::session/id session)]
-        ^{:key (str "app-view-" session-id)} [app-container session app-meta selected?]))]])
+        ^{:key (str "app-view-" session-id)} [app-container session app-meta selected?]))])

@@ -21,15 +21,13 @@
 (defn iframe-render-fn
   [{:keys [::session/id]} {:keys [::app/location]}]
   (let [[app-id inst-id] id]
-    [:div {:style {:height "100%"
-                   :weight "100%"}}
-     [:iframe {:id  (str "ifr-" app-id "$" inst-id)
-               :src location}]]))
+     [:iframe.app-iframe  {:id  (str "ifr-" app-id "$" inst-id)
+                           :src location}]))
 
 (defn container-view []
 
   (let [app-sessions @(rf/subscribe [::session/app-sessions])]
-      [:div
-       [:aside#minileftbar {:class "minileftbar"} [session-bar app-sessions]]
+      [:div.app-view-panel
+       [:aside.minileftbar  [session-bar app-sessions]]
        [:section.content [a-view/app-viewport app-sessions]]]))
 
