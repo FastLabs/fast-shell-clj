@@ -17,16 +17,19 @@
 
 (config/is-dev-mode?)
 
-(defn start-app-repo
+(defn init-app-repo
   []
   (let [apps [{::app/id        "app-repo"
                ::app/name      "Application Repository"
+               ::app/icon      "zmdi-search"
                ::app/render-fn views/app-repo-render-fn}
               {::app/id        "user-admin"
                ::app/name      "User Admin"
+               ::app/icon      "zmdi-calendar"
                ::app/render-fn views/user-admin-render-fn}
               {::app/id        "remote-app"
                ::app/name      "Simple Remote App"
+               ::app/icon      "zmdi-account-box-phone"
                ::app/location  "http://localhost:9500/apps/simpleapp.html"
                ::app/render-fn views/iframe-render-fn}]]
     (rf/dispatch-sync [::shell/initialize-db])
@@ -43,7 +46,7 @@
 
 (defn mount-app-element []
   (when-let [el (get-app-element)]
-    (start-app-repo)
+    (init-app-repo)
     (mount el)))
 
 ;; conditionally start your application based on the presence of an "app" element

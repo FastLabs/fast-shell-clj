@@ -5,6 +5,8 @@
             [re-frame.core :as rf]
             [util.dom-handlers :refer [on-click]]))
 
+
+;TODO: remove this once the functionality is
 (defn session-selector
   [sessions]
   [:ul
@@ -18,11 +20,12 @@
 
 
 (defn session-toggle
-  [{:keys [::session/id]} app-meta]
+  [{:keys [::session/id]} {:keys [::app/icon] :as app-meta}]
   [:li
    [:a {:href     "#"
         :title    (::app/name app-meta)
-        :on-click (on-click #(rf/dispatch [:activate-session id]))}]])
+        :on-click (on-click #(rf/dispatch [:activate-session id]))}
+    [:i.zmdi {:class icon}]]])
 
 (defn session-bar
   [session-specs]

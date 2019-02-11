@@ -10,7 +10,7 @@
 (defn app-repo-render-fn
   [_ _]
   (let [apps @(rf/subscribe [:app-list])]
-    [:div [:divsession.views
+    [:div [:div
            [:span "Application Repository"]
            [:div [repo-view/app-list apps]]]]))
 
@@ -27,10 +27,9 @@
                :src location}]]))
 
 (defn container-view []
+
   (let [app-sessions @(rf/subscribe [::session/app-sessions])]
-    (fn []
-      (prn "Render Application Sessions for " app-sessions)
       [:div
        [:aside#minileftbar {:class "minileftbar"} [session-bar app-sessions]]
-       [:section.content [a-view/app-viewport app-sessions]]])))
+       [:section.content [a-view/app-viewport app-sessions]]]))
 
