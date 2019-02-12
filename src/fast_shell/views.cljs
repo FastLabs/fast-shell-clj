@@ -29,5 +29,5 @@
   (let [app-sessions @(rf/subscribe [::session/app-sessions])]
       [:div.app-view-panel
        [:aside.minileftbar  [session-bar app-sessions]]
-       [:section.content [a-view/app-viewport app-sessions]]]))
+       [:section.view.app-view-panel [a-view/app-viewport app-sessions]]]))
 

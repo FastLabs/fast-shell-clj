@@ -35,7 +35,7 @@
                ::app/render-fn views/iframe-render-fn}]]
     (rf/dispatch-sync [::shell/initialize-db])
     (rf/dispatch-sync [:load-apps apps])
-    (app/start-app "app-repo" false)))
+    (app/start-app "app-repo" :activate? false :closeable? false)))
 
 
 

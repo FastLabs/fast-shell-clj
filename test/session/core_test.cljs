@@ -12,7 +12,7 @@
                (app/add-new-meta (app/new-app-meta "app-2" "second app")))]
     (prn db)
     (testing "create new session"
-      (let [db' (ses/add-new-session db "app-1")
+      (let [db' (ses/register-session db {::app/id "app-1"} {})
             {:keys [::ses/instances ::ses/inst-count]} db']
         (prn instances)
         (is (contains? instances ["app-1" 1]))
@@ -21,8 +21,8 @@
 
     '(testing "more than one session for same app"
        (let [db' (-> db
-                     (ses/add-new-session "app-1")
-                     (ses/add-new-session "app-1"))
+                     (ses/register-session "app-1")
+                     (ses/register-session "app-1"))
              {:keys [::ses/instances]} db']
          (is (contains? instances "app-1"))
          (let [{:keys [::ses/inst-count ::ses/all-inst]} (get instances "app-1")]
@@ -31,8 +31,8 @@
                             [2 "app-1"] {::ses/id [2 "app-1"]}})))))
     '(testing "2 sessions of different apps"
        (let [db' (-> db
-                     (ses/add-new-session "app-1")
-                     (ses/add-new-session "app-2"))
+                     (ses/register-session "app-1")
+                     (ses/register-session "app-2"))
              {:keys [::ses/instances]} db']
          (is (contains? instances "app-1"))
          (is (contains? instances "app-2"))
@@ -47,15 +47,15 @@
 
     '(testing "destroy session -> the only available session"
        (let [db' (-> db
-                     (ses/add-new-session "app-1")
-                     (ses/add-new-session "app-2"))
+                     (ses/register-session "app-1")
+                     (ses/register-session "app-2"))
              {:keys [::ses/instances]} (ses/destroy-session db' [1 "app-1"])]
          (is (empty? (get-in instances ["app-1" ::ses/all-inst])))))
 
     '(testing "destroy session -> a session from multiple"
        (let [db' (-> db
-                     (ses/add-new-session "app-1")
-                     (ses/add-new-session "app-1"))
+                     (ses/register-session "app-1")
+                     (ses/register-session "app-1"))
              {:keys [::ses/instances]} (ses/destroy-session db' [1 "app-1"])]
          (is (nil? (get-in instances ["app-1" ::ses/all-inst [1 "app-1"]])))
          (is (not (nil? (get-in instances ["app-1" ::ses/all-inst [2 "app-1"]]))))))))
@@ -65,7 +65,7 @@
                 (app/add-new-meta (app/new-app-meta "app-1" "first app"))
                 (app/add-new-meta (app/new-app-meta "app-2" "second app")))]
      (testing "find session by application id"
-       (let [db' (ses/add-new-session db "app-1")]
+       (let [db' (ses/register-session db "app-1")]
          (is (contains? (ses/app-sessions db' "app-1") [1 "app-1"]))
          (is (not (contains? (ses/app-sessions db' "app-2") [1 "app-2"])))))))
 
@@ -75,8 +75,8 @@
               (app/add-new-meta (app/new-app-meta "app-2" "second")))]
      (testing "select session information for view: 2 applications 1 instance each"
        (let [db' (-> db
-                     (ses/add-new-session "app-1")
-                     (ses/add-new-session "app-2"))]
+                     (ses/register-session "app-1")
+                     (ses/register-session "app-2"))]
          (let [session-views (ses/sessions-view db')]
            (is (= 2 (count session-views)))
            (is (= [{::app/id "app-1" ::app/name "first"} {::ses/id [1 "app-1"]}] (first session-views)))
@@ -84,9 +84,9 @@
 
      (testing "select session information for view: more than one instance "
        (let [db' (-> db
-                     (ses/add-new-session "app-1")
-                     (ses/add-new-session "app-2")
-                     (ses/add-new-session "app-1"))
+                     (ses/register-session "app-1")
+                     (ses/register-session "app-2")
+                     (ses/register-session "app-1"))
              session-views (ses/sessions-view db')]
          (is (= 2  (count session-views)))
          (let [[app-1-sessions app-2-sessions] session-views]

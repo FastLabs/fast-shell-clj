@@ -7,7 +7,6 @@
 (re-frame/reg-event-db
   ::shell/initialize-db
   (fn [_ _]
-    (prn "------------------------")
     shell/default-db))
 
 (re-frame/reg-event-db

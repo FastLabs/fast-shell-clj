@@ -12,4 +12,4 @@
 (rf/reg-event-db
   :activate-session
   (fn [db [_ session-id]]
-    (session/activate-session db session-id)))
+    (session/activate-session db session-id true)))

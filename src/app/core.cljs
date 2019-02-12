@@ -29,8 +29,5 @@
   (let [store-content (get-in db [::store ::store-content])]
     (get store-content app-id)))
 
-(defn start-app
-  ([app-id activate?]
-   (rf/dispatch [:start-app app-id activate?]))
-  ([app-id]
-   (start-app app-id true)))
+(defn start-app [app-id & {:as options}]
+  (rf/dispatch [:start-app app-id (merge {:activate? true} options)]))

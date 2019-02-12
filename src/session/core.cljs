@@ -22,31 +22,43 @@
   (let [ses-id [(::app/id app-meta) session-postfix]]
     (assoc session ::id ses-id)))
 
-(defn gen-session-new [app-meta session-postfix]
+(defn- gen-session-new [app-meta session-postfix]
   (-> {::status :pending}
       (gen-session-id app-meta session-postfix)
       (gen-session-title app-meta)))
 
-(defn- next-app-session
-  [db {:keys [::app/id]}]
+(defn next-app-session
+  [db {:keys [::app/id] :as app-meta}]
   (->> (get-in db [::inst-count id] 0)
-       inc))
-
-(defn add-new-session
-  "Creates a new session"
-  [db app-meta]
-  (let [session-postfix (next-app-session db app-meta)
-        new-session (gen-session-new app-meta session-postfix)
-        new-session-id (::id new-session)]
-    (-> db
-        (assoc-in [::instances new-session-id] new-session)
-        (assoc-in [::inst-count (::app/id app-meta)] session-postfix)
-        (assoc ::last-created new-session-id))))
+       inc
+       (gen-session-new app-meta)))
 
 (defn activate-session
-  [db session-id]
-  (prn "Activate Session" session-id)
-  (assoc db ::active session-id))
+  [db session-id active-flag]
+  (if active-flag
+    (assoc db ::active session-id)
+    db))
+
+
+
+(defn- session-config
+  "Configures the session based on startup request options.
+   By default the application will be closeable unless is requested otherwise."
+  [session opts]
+  (-> {:closeable? true}
+      (merge (dissoc opts [:activate?]))
+      (merge session)))
+
+(defn register-session
+  "Register a new session within the application"
+  [db session {:keys [activate?] :as opts}]
+  (let [new-session (session-config session opts)
+        [app-id inst-id :as new-session-id] (::id new-session)]
+    (-> db
+        (assoc-in [::instances new-session-id] new-session)
+        (assoc-in [::inst-count app-id] inst-id)
+        (activate-session new-session-id activate?))))
+
 
 (defn dispose-session
   ;;TODO: review this as per re-frame tutorial from lisp-cast

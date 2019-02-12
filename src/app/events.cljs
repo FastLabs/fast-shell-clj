@@ -14,8 +14,8 @@
   [evt]
   (let [evt-data (-> evt .-data)]
     (-> (.parse js/JSON evt-data)
-     (js->clj :keywordize-keys true)
-     handle-app-msg)))
+        (js->clj :keywordize-keys true)
+        handle-app-msg)))
 
 (defn listen-events []
   (when-not @subscribed?
@@ -28,12 +28,10 @@
 
 (rf/reg-event-db
   :start-app
-  (fn [db [_ app-id activate?]]
+  (fn [db [_ app-id opts]]
     (let [app-meta (app/find-by-id db app-id)
-          db' (session/add-new-session db app-meta)]
-      (if activate?
-        (session/activate-session db' (::session/last-created db'))
-        db'))))
+          session (session/next-app-session db app-meta)]
+      (session/register-session db session opts))))
 
 (rf/reg-event-db
   :app-status-update

@@ -14,4 +14,5 @@
 
   :profiles {:dev {:dependencies  [[com.bhauman/figwheel-main "0.1.9"]
                                    [com.bhauman/rebel-readline-cljs "0.1.4"]]
+                   :source-file [@dev]
                    :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]}})
