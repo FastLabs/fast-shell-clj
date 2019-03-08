@@ -13,6 +13,10 @@
             "fig:test"  ["run" "-m" "figwheel.main" "-co" "test.cljs.edn" "-m" fast-shell.test-runner]}
 
   :profiles {:dev {:dependencies  [[com.bhauman/figwheel-main "0.1.9"]
-                                   [com.bhauman/rebel-readline-cljs "0.1.4"]]
-                   :source-file [@dev]
+                                   [com.bhauman/rebel-readline-cljs "0.1.4"]
+                                   [compojure "1.6.1"]
+                                   [ring-middleware-format "0.7.4"]
+                                   [day8.re-frame/re-frame-10x "0.3.7" :exclusions [org.clojure/clojurescript]]]
+                   :source-file [dev]
+                   :source-paths ["dev"]
                    :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]}})
