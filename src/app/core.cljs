@@ -5,8 +5,9 @@
 (s/def ::id string?)
 (s/def ::name string?)
 (s/def ::description string?)
+(s/def ::launcher map?)
 
-(s/def ::meta (s/keys :req [::id ::name]
+(s/def ::meta (s/keys :req [::id ::name ::launcher]
                       :opt [::description]))
 
 (s/def ::store-cfg map?)
@@ -19,15 +20,16 @@
    ::name app-name})
 
 (defn add-new-meta
-  [db {:keys [::id] :as app-meta}]
-  (prn (str "register new application meta: " id))
-  (assoc-in db [::store ::store-content id] app-meta))
+  [db apps]
+  (reduce (fn [db' {:keys [::id] :as app}]
+            (assoc-in db' [::store ::store-content id] app)) db apps))
 
 
 (defn find-by-id
   [db app-id]
-  (let [store-content (get-in db [::store ::store-content])]
-    (get store-content app-id)))
+  (get-in db [::store ::store-content app-id]))
 
-(defn start-app [app-id & {:as options}]
+;;TODO: review this if i ned this or just to generate the event
+(defn start-app
+  [app-id & {:as options}]
   (rf/dispatch [:start-app app-id (merge {:activate? true} options)]))

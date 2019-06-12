@@ -1,16 +1,18 @@
 (ns fast-shell.events
-  (:require [re-frame.core :as re-frame]
+  (:require [re-frame.core :as rf]
             [fast-shell.core :as shell]
+            [app.server.core :as server]))
 
-            [app.core :as app]))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
+  ::shell/status
+  (fn [db [_ status]]
+    (prn "Shell Status set to: " status)
+    (assoc db ::shell/satus status)))
+
+(rf/reg-event-fx
   ::shell/initialize-db
   (fn [_ _]
-    shell/default-db))
-
-(re-frame/reg-event-db
-  ::new-app-meta
-  (fn [{:keys [::app/store] :as db} [_ app-meta]]
-    (app/add-new-meta db app-meta)))
-
+    {:db shell/default-db
+     :dispatch-n [[::shell/status :progress]
+                  [::server/apps-requested]]}))

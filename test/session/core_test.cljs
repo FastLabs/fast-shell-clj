@@ -8,16 +8,17 @@
 (deftest new-session-management
   (let [app-meta (app/new-app-meta "app-1" "simple app")
         db (-> db/default-db
-               (app/add-new-meta app-meta)
-               (app/add-new-meta (app/new-app-meta "app-2" "second app")))]
-    (prn db)
+               (app/add-new-meta [app-meta (app/new-app-meta "app-2" "second app")]))]
+
+
     (testing "create new session"
-      (let [db' (ses/register-session db {::app/id "app-1"} {})
+      (let [new-session (ses/next-app-session db {::app/id "app-1" ::app/name "simple app"})
+            db' (ses/register-session db new-session {})
             {:keys [::ses/instances ::ses/inst-count]} db']
         (prn instances)
         (is (contains? instances ["app-1" 1]))
         (is (= (get inst-count "app-1") 1))
-        (is (= instances {[ "app-1" 1] {::ses/id ["app-1" 1] ::ses/title "simple app"}}))))
+        (is (= instances {["app-1" 1] {:closeable? true ::ses/id ["app-1" 1] ::ses/title "simple app" ::ses/status :pending}}))))
 
     '(testing "more than one session for same app"
        (let [db' (-> db
@@ -62,8 +63,8 @@
 
 '(deftest session-lookup
    (let [db (-> db/default-db
-                (app/add-new-meta (app/new-app-meta "app-1" "first app"))
-                (app/add-new-meta (app/new-app-meta "app-2" "second app")))]
+                (app/add-new-meta [(app/new-app-meta "app-1" "first app")
+                                   (app/new-app-meta "app-2" "second app")]))]
      (testing "find session by application id"
        (let [db' (ses/register-session db "app-1")]
          (is (contains? (ses/app-sessions db' "app-1") [1 "app-1"]))
@@ -71,8 +72,8 @@
 
 '(deftest session-view-query
    (let [db (-> db/default-db
-              (app/add-new-meta (app/new-app-meta "app-1" "first"))
-              (app/add-new-meta (app/new-app-meta "app-2" "second")))]
+                (app/add-new-meta [(app/new-app-meta "app-1" "first")
+                                   (app/new-app-meta "app-2" "second")]))]
      (testing "select session information for view: 2 applications 1 instance each"
        (let [db' (-> db
                      (ses/register-session "app-1")
@@ -88,7 +89,7 @@
                      (ses/register-session "app-2")
                      (ses/register-session "app-1"))
              session-views (ses/sessions-view db')]
-         (is (= 2  (count session-views)))
+         (is (= 2 (count session-views)))
          (let [[app-1-sessions app-2-sessions] session-views]
            (prn app-1-sessions)
            (prn "-------------")

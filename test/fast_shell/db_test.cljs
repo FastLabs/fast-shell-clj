@@ -8,6 +8,3 @@
 '(deftest shell-db-test
    (testing "application database initialization"
      (is (s/valid? ::shell/shell-db shell/default-db))))
-
-
-

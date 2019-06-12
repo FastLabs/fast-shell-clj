@@ -1,46 +1,44 @@
 (ns app.events
   (:require [re-frame.core :as rf]
             [app.core :as app]
+            [fast-shell.views :as shell-view]
+            [fast-shell.core :as shell]
             [session.core :as session]))
 
-(defonce subscribed? (atom false))
-
-(defn- handle-app-msg
-  [{:keys [appId instId status] :as app-msg}]
-  (rf/dispatch [:app-status-update [appId (js/parseInt instId)] (keyword (.toLowerCase status))]))
-
-(defn- post-msg-handler
-  "Hales the event from a windowed application"
-  [evt]
-  (let [evt-data (-> evt .-data)]
-    (-> (.parse js/JSON evt-data)
-        (js->clj :keywordize-keys true)
-        handle-app-msg)))
-
-(defn listen-events []
-  (when-not @subscribed?
-    (js/addEventListener "message" post-msg-handler)
-    (prn "->> Subscribe window listener")
-    (reset! subscribed? true)))
-
-;todo: look to improve event subscription
-(listen-events)
-
+;TODO: move to session namespace
 (rf/reg-event-db
   :start-app
   (fn [db [_ app-id opts]]
     (let [app-meta (app/find-by-id db app-id)
           session (session/next-app-session db app-meta)]
       (session/register-session db session opts))))
-
+;TODO: move to session namespace
 (rf/reg-event-db
   :app-status-update
   (fn [db [_ app-id status]]
-    (prn "=======" app-id status)
     (assoc-in db [::session/instances app-id ::session/status] status)))
 
+(defn detect-renderer
+  [{:keys [::app/launcher] :as app-meta}]
+  (if (contains? launcher ::app/url)
+    (update-in app-meta [::app/launcher ::app/render-fn]  shell-view/iframe-render-fn)
+    app-meta))
+
+(defn auto-start-events
+  [apps]
+  (->> apps
+    (filter #(get-in % [::app/options :startup-run?]))
+    (map (fn [app]
+           [:start-app
+            (::app/id app)
+            (merge {:activate? false} (::app/options app))]))))
+
 (rf/reg-event-fx
-  :cross-app-com-in
-  (fn [cofx [_ message]]
-    (prn "Received event from app: " message)
-    cofx))
+  ::new-meta
+  (fn [{:keys [db]} [_ new-meta]]
+    (let [db' (->> new-meta
+               (map detect-renderer)
+               (app/add-new-meta db))]
+        {:db db'
+         :dispatch-n (conj (auto-start-events new-meta)
+                           [::shell/status :ok])})))

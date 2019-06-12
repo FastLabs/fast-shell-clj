@@ -1,4 +1,5 @@
-(ns fast-shell.config)
+(ns fast-shell.config
+  (:import goog))
 
 (def debug?
   ^boolean goog.DEBUG)

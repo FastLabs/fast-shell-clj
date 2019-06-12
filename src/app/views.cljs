@@ -28,7 +28,7 @@
   (let [display (if visible? :block :none)]
     [:div.app-view-panel {:style {:display display}}
      [container-header session app-meta]
-     [:div.app-view-panel [(::app/render-fn app-meta) session app-meta]]]))
+     [:div.app-view-panel [(get-in app-meta [::app/launcher ::app/render-fn] ) session app-meta]]]))
 
 (defn app-viewport
   [sessions]

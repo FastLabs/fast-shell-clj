@@ -4,15 +4,17 @@
             [app.core :as app]))
 
 (s/def ::title string?)
+(s/def ::status #{:ok :error :progress})
 
 (s/def ::app-db (s/keys :req [::title
                               ::app/store
+                              ::status
                               ::session/instances]))
+
 (defonce default-db
   {::title              "Fast Shell Container"
-   ::app/auto-start     #{"app-repo"}
-   ::app/always-running #{"app-repo"}
    ::app/store          {::app/store-content {}
-                         ::app/store-cfg     {}}
+                         ::app/store-cfg     {::repo-app "app-repo"}}
    ::session/inst-count {}
+   ::status :ok
    ::session/instances  {}})
