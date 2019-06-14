@@ -1,20 +1,20 @@
 (ns fast-shell.core
   (:require [cljs.spec.alpha :as s]
             [session.core :as session]
-            [app.core :as app]))
+            [app-store.core :as store]))
 
 (s/def ::title string?)
 (s/def ::status #{:ok :error :progress})
 
 (s/def ::app-db (s/keys :req [::title
-                              ::app/store
+                              ::store/content
                               ::status
                               ::session/instances]))
 
 (defonce default-db
-  {::title              "Fast Shell Container"
-   ::app/store          {::app/store-content {}
-                         ::app/store-cfg     {::repo-app "app-repo"}}
+  {::title              "Fast Shell Container1"
+   ::store/content          {::store/apps {}
+                             ::store/config     {::repo-app "app-repo"}}
    ::session/inst-count {}
    ::status :ok
    ::session/instances  {}})

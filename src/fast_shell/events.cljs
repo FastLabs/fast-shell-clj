@@ -1,7 +1,7 @@
 (ns fast-shell.events
   (:require [re-frame.core :as rf]
             [fast-shell.core :as shell]
-            [app.server.core :as server]))
+            [server.core :as server]))
 
 
 (rf/reg-event-db

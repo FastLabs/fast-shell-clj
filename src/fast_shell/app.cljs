@@ -10,10 +10,11 @@
     [fast-shell.core :as shell]
     [fast-shell.views :as views]
     [fast-shell.event-bus :as event-bus]
-    [app.server.core :as server]
+    [server.core :as server]
     [fast-shell.subs]
     [fast-shell.events]
     [nav.core]
+    [app-store.core]
     [fast-shell.config :as config]
     [reagent.core :as reagent]))
 
@@ -21,7 +22,7 @@
 
 (defn init-app-repo
   []
-  (rf/dispatch [::shell/initialize-db]))
+  (rf/dispatch-sync [::shell/initialize-db]))
 
 (defn mount [el]
   (reagent/render-component [views/container-view] el))
@@ -34,5 +35,5 @@
 
 
 (defn ^:export init []
-  (prn "Application loaded")
+  (prn "Application loaded1")
   (mount-app-element))

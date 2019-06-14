@@ -3,9 +3,14 @@
             [re-frame.core :as rf]
             [session.core :as session]))
 
+(defn icon
+  [name]
+  [:i.material-icons name])
+
 (defn- app-btn [{:keys [::session/id]}]
   [:span {:style    {:cursor "pointer"}
-          :on-click #(rf/dispatch [:dispose-session id])} "[close]"])
+          :on-click #(rf/dispatch [:dispose-session id])}
+        [icon "close"]])
 
 (defn- action-bar [{:keys [closeable?] :as session}]
   [:div {:class-name "col-lg-7 col-md-7 col-sm-12"}

@@ -1,6 +1,7 @@
 (ns app.events
   (:require [re-frame.core :as rf]
             [app.core :as app]
+            [app-store.core :as store]
             [fast-shell.views :as shell-view]
             [fast-shell.core :as shell]
             [session.core :as session]))
@@ -9,7 +10,7 @@
 (rf/reg-event-db
   :start-app
   (fn [db [_ app-id opts]]
-    (let [app-meta (app/find-by-id db app-id)
+    (let [app-meta (store/find-app-by-id db app-id)
           session (session/next-app-session db app-meta)]
       (session/register-session db session opts))))
 ;TODO: move to session namespace
@@ -38,7 +39,7 @@
   (fn [{:keys [db]} [_ new-meta]]
     (let [db' (->> new-meta
                (map detect-renderer)
-               (app/add-new-meta db))]
+               (store/add-new-meta db))]
         {:db db'
          :dispatch-n (conj (auto-start-events new-meta)
                            [::shell/status :ok])})))

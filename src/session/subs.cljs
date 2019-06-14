@@ -1,11 +1,11 @@
 (ns session.subs
   (:require [re-frame.core :as rf]
-            [app.core :as app]
+            [app-store.core :as store]
             [session.core :as session]))
 
 (defn- session-app-meta
   [db session]
-  (get-in db [::app/store ::app/store-content (session/app-id session)]))
+  (get-in db [::store/content ::store/apps (session/app-id session)]))
 
 (defn- session-active
   [{:keys [::session/active]} session]

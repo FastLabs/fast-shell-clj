@@ -1,7 +1,7 @@
-(ns app.server.core
+(ns server.core
   (:require [re-frame.core :as rf]
             [fast-shell.views :as views]
-            [app-repo.views :as app-repo-view]
+            [app-store.views :as app-repo-view]
             [user-admin.views :as user-admin-view]
             [app.core :as app]
             [app.events :as app-event]))
