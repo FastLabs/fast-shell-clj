@@ -8,3 +8,4 @@ out
 .DS*
 .idea
 .nrepl-port
+node_modules
